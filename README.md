@@ -133,6 +133,112 @@ SanPark/
 
 ---
 
+## 🧪 Testing
+
+SanPark includes both an **automated end-to-end (E2E) test suite** and a **manual verification checklist** covering all five pages.
+
+---
+
+### Automated E2E Testing (Puppeteer)
+
+The test script [`test-e2e.js`](./test-e2e.js) uses **Puppeteer** to launch a headless Chrome browser, navigate every page, interact with UI elements, and capture screenshots and an animated screen recording as evidence.
+
+#### Prerequisites
+
+- Google Chrome installed at its default path
+- Dev server running locally (`npm run dev`)
+- Install test dependencies:
+
+```bash
+npm install puppeteer-core pngjs gifenc
+```
+
+#### Run the Tests
+
+```bash
+# 1. Start the dev server (in a separate terminal)
+npm run dev
+
+# 2. Run the E2E test script
+node test-e2e.js
+```
+
+#### What the E2E Script Tests
+
+| Step | Page | Actions Verified |
+|:-----|:-----|:-----------------|
+| 1 | **Find Parking** (`/`) | Page loads, EV Charging filter click, reset to All Spots |
+| 2 | **Floor Plan Modal** | Opens SM Megamall floor plan, switches to Level B2, selects slot A-10, proceeds to checkout |
+| 3 | **My Bookings** (`/my-bookings`) | Page loads after checkout redirect, toggles EV Fast Charge & Car Wash add-ons, selects Maya payment |
+| 4 | **Mall Manager** (`/mall-manager`) | Page loads, toggles Peak Surge & Maintenance Lock switches, searches "Civic" in live sessions |
+| 5 | **System Analytics** (`/analytics`) | Page loads, toggles 7D chart time range |
+| 6 | **User Profile** (`/account`) | Page loads, switches to Saved Vehicles tab, Payment Methods tab, and Parking Stats tab |
+
+#### Test Outputs
+
+The script automatically generates and saves the following artifacts:
+
+| File | Description |
+|:-----|:------------|
+| `01_find_parking_page.png` | Find Parking home view |
+| `02_floorplan_modal.png` | Floor plan bay selector modal |
+| `03_my_bookings_page.png` | My Bookings active pass view |
+| `04_my_bookings_addons_maya.png` | Add-ons selected + Maya payment |
+| `05_mall_manager_page.png` | Mall Manager overview |
+| `06_mall_manager_filtered.png` | Live sessions filtered by "Civic" |
+| `07_system_analytics_page.png` | System Analytics dashboard |
+| `08_user_profile_page.png` | User Profile general tab |
+| `09_saved_vehicles_tab.png` | Saved Vehicles tab |
+| `10_payment_methods_tab.png` | Payment Methods tab |
+| `11_parking_stats_tab.png` | Parking Stats & History tab |
+| `sanpark_screen_recording.gif` | Full animated screen recording walkthrough |
+
+---
+
+### Manual Verification Checklist
+
+The following features were manually verified on `http://localhost:3000`:
+
+#### 🗺️ Find Parking (`/`)
+- [x] Page loads with dark Obsidian Parking theme
+- [x] Live parking ticker updates available slot count
+- [x] Amenity filter buttons (All, EV Charging, Covered, 24/7 CCTV) filter parking cards
+- [x] Interactive vector map shows radar ping animations on hub pins
+- [x] "Floor Plan" button opens the bay selector modal
+- [x] Slot selection in modal updates price summary
+- [x] "Proceed to Reserve" redirects to `/my-bookings`
+
+#### 🎟️ My Bookings (`/my-bookings`)
+- [x] Active reservation pass and hold countdown timer display correctly
+- [x] EV Fast Charge, Express Pass, and Car Wash add-ons recalculate total price in real time
+- [x] GCash, Maya, and Card payment toggles switch active state
+- [x] Digital QR pass and barcode render in high contrast
+- [x] Apple Wallet / Google Wallet and Waze / Google Maps deep-link buttons are present
+
+#### 🏬 Mall Manager Portal (`/mall-manager`)
+- [x] Telemetry bento grid shows Revenue, Occupancy, Active Bookings, and EV demand
+- [x] SVG capacity donut chart renders correctly
+- [x] Peak Hours Surge Pricing toggle updates rates
+- [x] Maintenance Lockdown switch reflects state change
+- [x] Live sessions table supports text search by plate or user name
+
+#### 📊 System Analytics (`/analytics`)
+- [x] Operations Center status indicators display (latency, hubs, uptime)
+- [x] SVG area chart renders with gradient fill
+- [x] 24H / 7D / 30D time range buttons switch chart dataset
+- [x] Hardware diagnostics show Barrier Booms, ANPR Cameras, and EV Charger counts
+- [x] Live ANPR event log stream displays entries
+
+#### 👤 User Profile (`/account`)
+- [x] Elite membership banner with loyalty point balance displays
+- [x] General & Security tab loads with biometric and 2FA toggles
+- [x] Saved Vehicles tab shows registered vehicles
+- [x] Add Vehicle modal opens and closes correctly
+- [x] Payment Methods tab shows linked e-wallets and cards
+- [x] Parking Stats & History tab shows monthly usage analytics
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.
