@@ -11,6 +11,8 @@ import MyBookingsPage from './pages/MyBookingsPage';
 import MallManagerPage from './pages/MallManagerPage';
 import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import UserProfilePage from './pages/UserProfilePage';
+import LoginPage from './pages/LoginPage';
+import CustomerReservationsPage from './pages/CustomerReservationsPage';
 
 function ToastContainer() {
   const { toastMessage } = useApp();
@@ -26,6 +28,21 @@ function ToastContainer() {
   );
 }
 
+function RoleLanding() {
+  const { userRole } = useApp();
+  return userRole === 'admin' ? <Navigate to="/mall-manager" replace /> : <FindParkingPage />;
+}
+
+function AdminRoute({ children }) {
+  const { userRole } = useApp();
+  return userRole === 'admin' ? children : <Navigate to="/" replace />;
+}
+
+function UserRoute({ children }) {
+  const { userRole } = useApp();
+  return userRole === 'user' ? children : <Navigate to="/customer-reservations" replace />;
+}
+
 function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
@@ -34,12 +51,13 @@ function MainLayout() {
       {/* Spacer for fixed top navbar */}
       <main className="flex-grow pt-16 flex flex-col w-full">
         <Routes>
-          <Route path="/" element={<FindParkingPage />} />
-          <Route path="/find-parking" element={<Navigate to="/" replace />} />
-          <Route path="/my-bookings" element={<MyBookingsPage />} />
-          <Route path="/mall-manager" element={<MallManagerPage />} />
-          <Route path="/analytics" element={<AdminAnalyticsPage />} />
-          <Route path="/admin-operations" element={<Navigate to="/analytics" replace />} />
+          <Route path="/" element={<RoleLanding />} />
+          <Route path="/find-parking" element={<FindParkingPage />} />
+          <Route path="/my-bookings" element={<UserRoute><MyBookingsPage /></UserRoute>} />
+          <Route path="/mall-manager" element={<AdminRoute><MallManagerPage /></AdminRoute>} />
+          <Route path="/customer-reservations" element={<AdminRoute><CustomerReservationsPage /></AdminRoute>} />
+          <Route path="/analytics" element={<AdminRoute><AdminAnalyticsPage /></AdminRoute>} />
+          <Route path="/admin-operations" element={<AdminRoute><Navigate to="/analytics" replace /></AdminRoute>} />
           <Route path="/account" element={<UserProfilePage />} />
           <Route path="/user-profile" element={<Navigate to="/account" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
@@ -57,7 +75,10 @@ export default function App() {
   return (
     <AppProvider>
       <BrowserRouter>
-        <MainLayout />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<MainLayout />} />
+        </Routes>
       </BrowserRouter>
     </AppProvider>
   );

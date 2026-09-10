@@ -3,17 +3,21 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function Navbar() {
-  const { selectedVehicle, vehicles, setDefaultVehicle } = useApp();
+  const { selectedVehicle, vehicles, setDefaultVehicle, userRole, currentUser, signOut } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [vehicleDropdownOpen, setVehicleDropdownOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
-  const navLinks = [
+  const navLinks = userRole === 'admin' ? [
+    { path: '/mall-manager', label: 'Mall Manager Portal', icon: 'storefront', match: ['/mall-manager'] },
+    { path: '/find-parking', label: 'Find Parking', icon: 'explore', match: ['/find-parking'] },
+    { path: '/customer-reservations', label: 'Customer Reservations', icon: 'assignment_ind', match: ['/customer-reservations'] },
+    { path: '/analytics', label: 'System Analytics', icon: 'analytics', match: ['/analytics', '/admin-operations'] },
+  ] : [
     { path: '/', label: 'Find Parking', icon: 'explore', match: ['/', '/find-parking'] },
     { path: '/my-bookings', label: 'My Bookings', icon: 'confirmation_number', match: ['/my-bookings'] },
-    { path: '/mall-manager', label: 'Mall Manager Portal', icon: 'storefront', match: ['/mall-manager'] },
-    { path: '/analytics', label: 'System Analytics', icon: 'analytics', match: ['/analytics', '/admin-operations'] },
     { path: '/account', label: 'Account', icon: 'person', match: ['/account', '/user-profile'] },
   ];
 
@@ -27,7 +31,7 @@ export default function Navbar() {
         
         {/* Brand Logo */}
         <Link 
-          to="/"
+          to={userRole === 'admin' ? '/mall-manager' : '/'}
           className="flex items-center space-x-space-sm cursor-pointer select-none"
         >
           <img
@@ -68,7 +72,8 @@ export default function Navbar() {
         {/* Header Right Actions */}
         <div className="flex items-center space-x-space-sm relative">
           
-          {/* Active Vehicle Switcher */}
+          {/* Active Vehicle Switcher: personal control for regular users only */}
+          {userRole !== 'admin' && (
           <div className="relative">
             <button
               id="vehicle-switcher-btn"
@@ -107,22 +112,59 @@ export default function Navbar() {
               </div>
             )}
           </div>
+          )}
 
-          {/* User Profile Avatar */}
-          <button
-            id="nav-user-avatar-btn"
-            onClick={() => navigate('/account')}
-            className={`w-9 h-9 rounded-full ring-2 transition-all overflow-hidden flex items-center justify-center ${
-              isLinkActive(['/account', '/user-profile']) ? 'ring-primary-container' : 'ring-surface-container-high hover:ring-primary'
-            }`}
-            title="Mark Cruz (Elite Member)"
-          >
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5bvRdWVC7p9MesXQArQVjMgCtcxzoeW5NMAfuQN6x5_pwVnCOx3LKfDQRNXqpELEVFQUCjoEWGswiEpFxpWfqhGiS5iHcsmToBdfNYipmV6M3M8F8HgyfE5778DBh1pHihPt85W0iWjbm7IaBOiwfgQUkAbE8xzvOBkEf2pPXhxsCY8tNiDhWmKPw4RTDytvTxRlGvVL64_GzDSP5dObdYB7KKj037uV62M8uztKUiCnvtIFHy1-A"
-              alt="Mark Cruz"
-              className="w-full h-full object-cover"
-            />
-          </button>
+          {/* Account Menu */}
+          <div className="relative">
+            <button
+              id="nav-user-avatar-btn"
+              onClick={() => setAccountMenuOpen(current => !current)}
+              className={`w-9 h-9 rounded-full ring-2 transition-all overflow-hidden flex items-center justify-center ${
+                accountMenuOpen || isLinkActive(['/account', '/user-profile']) ? 'ring-primary-container' : 'ring-surface-container-high hover:ring-primary'
+              }`}
+              title={`${currentUser?.name || 'SanPark account'} menu`}
+              aria-expanded={accountMenuOpen}
+              aria-haspopup="menu"
+            >
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5bvRdWVC7p9MesXQArQVjMgCtcxzoeW5NMAfuQN6x5_pwVnCOx3LKfDQRNXqpELEVFQUCjoEWGswiEpFxpWfqhGiS5iHcsmToBdfNYipmV6M3M8F8HgyfE5778DBh1pHihPt85W0iWjbm7IaBOiwfgQUkAbE8xzvOBkEf2pPXhxsCY8tNiDhWmKPw4RTDytvTxRlGvVL64_GzDSP5dObdYB7KKj037uV62M8uztKUiCnvtIFHy1-A"
+                alt={currentUser?.name || 'SanPark account'}
+                className="w-full h-full object-cover"
+              />
+            </button>
+
+            {accountMenuOpen && (
+              <div className="absolute right-0 mt-3 w-64 overflow-hidden rounded-xl border border-surface-container-highest bg-surface-container/95 shadow-2xl backdrop-blur-xl" role="menu">
+                <div className="border-b border-surface-container-high px-4 py-3">
+                  <div className="text-body-sm font-semibold text-on-surface">{currentUser?.name}</div>
+                  <div className="mt-0.5 truncate text-[11px] font-mono text-secondary">{currentUser?.email}</div>
+                  <span className="mt-2 inline-flex rounded-full border border-primary/30 bg-primary-container/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                    {userRole === 'admin' ? 'Administrator' : 'Driver account'}
+                  </span>
+                </div>
+                <div className="p-2">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => { setAccountMenuOpen(false); navigate('/account'); }}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-body-sm text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface"
+                  >
+                    <span className="material-symbols-outlined text-[19px] text-primary">person</span>
+                    <span>Profile</span>
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => { setAccountMenuOpen(false); signOut(); navigate('/login'); }}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-body-sm text-on-surface-variant transition hover:bg-red-950/40 hover:text-red-300"
+                  >
+                    <span className="material-symbols-outlined text-[19px] text-red-400">logout</span>
+                    <span>Log out</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <button

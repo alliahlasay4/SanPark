@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SanPark - Authentication & Identity Suite</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#121212',
+            surface: '#181818',
+            'surface-card': '#1E1E1E',
+            'surface-card-hover': '#262626',
+            'border-subtle': '#2C2C2C',
+            'accent-red': '#E50914',
+            'accent-red-hover': '#D32F2F',
+            'status-green': '#2ECC71',
+            'status-amber': '#F39C12',
+            'status-red': '#E74C3C',
+            'status-cyan': '#00E5FF'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          keyframes: {
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+            },
+            shake: {
+              '0%, 100%': { transform: 'translateX(0)' },
+              '20%, 60%': { transform: 'translateX(-6px)' },
+              '40%, 80%': { transform: 'translateX(6px)' }
+            },
+            radarSweep: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' }
+            }
+          },
+          animation: {
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'shake': 'shake 0.4s ease-in-out',
+            'radar': 'radarSweep 6s linear infinite'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #FFFFFF;
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #141414;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+    .otp-box:focus {
+      border-color: #E50914 !important;
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.4) !important;
+    }
+    .glass-panel {
+      background: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-950/25 via-[#101010] to-[#0A0A0A] flex flex-col justify-between selection:bg-red-600 selection:text-white">
+
+  <!-- Top Prototype Route Switcher -->
+  <header class="w-full border-b border-white/5 bg-[#121212]/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- SanPark Brand Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('login')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-red-800 p-0.5 shadow-lg shadow-red-900/40 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+            <path d="M10 8h3a2 2 0 0 1 0 4h-3v4"/>
+          </svg>
+        </div>
+        <div class="flex items-baseline font-extrabold tracking-tight text-xl">
+          <span class="text-white">San</span>
+          <span class="text-[#E50914] ml-0.5">Park</span>
+          <span class="ml-2.5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-red-950/60 border border-red-800/50 text-red-400 rounded-full">Auth Suite</span>
+        </div>
+      </div>
+
+      <!-- Prototype Multi-Page Route Switcher Pills -->
+      <div class="flex items-center bg-[#181818] p-1 rounded-xl border border-white/10 shadow-inner">
+        <button id="tab-btn-login" onclick="switchTab('login')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-accent-red text-white shadow-md shadow-red-900/30">
+          <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+          <span>1. Sign In</span>
+        </button>
+        <button id="tab-btn-register" onclick="switchTab('register')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white transition-all duration-200">
+          <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+          <span>2. Create Account</span>
+        </button>
+        <button id="tab-btn-otp" onclick="switchTab('otp')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white transition-all duration-200">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>3. Security OTP</span>
+        </button>
+      </div>
+
+      <!-- Right Help & Live Sensor Sync Pill -->
+      <div class="hidden md:flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>ANPR Mesh 99.98%</span>
+        </div>
+        <button onclick="toggleQuickDemoToast()" class="text-xs text-white/60 hover:text-white flex items-center gap-1 p-1.5 rounded-lg hover:bg-white/5 transition">
+          <i data-lucide="help-circle" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Toast Alert Container -->
+  <div id="global-toast" class="fixed top-20 right-6 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 ease-out max-w-sm w-full bg-[#1E1E1E] border border-white/15 rounded-xl p-4 shadow-2xl shadow-black/80 flex items-start gap-3 pointer-events-none">
+    <div id="toast-icon-wrapper" class="w-8 h-8 rounded-lg bg-red-600/20 text-red-500 flex items-center justify-center shrink-0 mt-0.5">
+      <i id="toast-icon" data-lucide="info" class="w-4 h-4"></i>
+    </div>
+    <div class="flex-1">
+      <div id="toast-title" class="text-sm font-semibold text-white">Security Notice</div>
+      <div id="toast-desc" class="text-xs text-white/70 mt-0.5 leading-relaxed">Demonstration action executed.</div>
+    </div>
+  </div>
+
+  <!-- Main Split-Screen Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10 flex items-center justify-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      
+      <!-- Left Hero & HUD Preview Column (Responsive 5 Cols on desktop) -->
+      <div class="lg:col-span-5 hidden lg:flex flex-col justify-between bg-gradient-to-b from-[#181818]/90 via-[#151515]/90 to-[#101010]/95 border border-white/10 rounded-2xl p-8 relative overflow-hidden shadow-2xl backdrop-blur-xl">
+        <!-- Ambient radial glow behind graphics -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Top branding banner & hub status -->
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-red-950/60 border border-red-700/50 text-red-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+              Live Smart Parking System
+            </span>
+            <span class="text-xs font-mono text-white/50">SM Megamall B • L1</span>
+          </div>
+
+          <h2 class="text-2xl font-black text-white tracking-tight leading-snug">
+            Autonomous Urban Access. <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">Zero Wait. Zero Stalls.</span>
+          </h2>
+          <p class="text-white/60 text-xs mt-2 leading-relaxed">
+            Instant automatic license plate recognition (ANPR), contactless barrier lifting, and EV Supercharging bay reservation across prime Manila hubs.
+          </p>
+        </div>
+
+        <!-- Middle Interactive HUD Visualizer (Stylized Mini Parking Bay Grid) -->
+        <div class="relative z-10 my-6 bg-[#0E0E0E]/90 border border-white/10 rounded-xl p-4 shadow-inner">
+          <div class="flex items-center justify-between text-[11px] font-mono text-white/60 mb-3 border-b border-white/5 pb-2">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="radio" class="w-3.5 h-3.5 text-red-500 animate-pulse"></i>
+              <span>RADAR MATRIX: SECTOR B1</span>
+            </div>
+            <span class="text-emerald-400">92% OCCUPIED</span>
+          </div>
+
+          <!-- Stylized parking slots preview -->
+          <div class="grid grid-cols-4 gap-2 text-center text-[10px] font-mono">
+            <div class="p-2 rounded-lg bg-red-950/30 border border-red-700/60 text-red-400 flex flex-col items-center justify-center">
+              <span class="font-bold">B1-01</span>
+              <span class="text-[9px] text-white/50">OCCUPIED</span>
+            </div>
+            <div class="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/70 text-emerald-400 flex flex-col items-center justify-center shadow-lg shadow-emerald-950/50 animate-pulse">
+              <span class="font-bold">B1-02</span>
+              <span class="text-[9px] font-semibold text-emerald-300">VACANT</span>
+            </div>
+            <div class="p-2 rounded-lg bg-cyan-950/40 border border-cyan-500/60 text-cyan-300 flex flex-col items-center justify-center">
+              <div class="flex items-center gap-0.5">
+                <i data-lucide="zap" class="w-2.5 h-2.5 text-cyan-400"></i>
+                <span class="font-bold">B1-03</span>
+              </div>
+              <span class="text-[9px] text-cyan-200">EV 60kW</span>
+            </div>
+            <div class="p-2 rounded-lg bg-red-950/30 border border-red-700/60 text-red-400 flex flex-col items-center justify-center">
+              <span class="font-bold">B1-04</span>
+              <span class="text-[9px] text-white/50">VIP HELD</span>
+            </div>
+          </div>
+
+          <!-- Micro Metric Bar -->
+          <div class="mt-4 pt-3 border-t border-white/5 grid grid-cols-3 gap-2 text-center">
+            <div class="bg-white/5 p-2 rounded-lg">
+              <div class="text-[10px] text-white/50">Barrier Response</div>
+              <div class="text-xs font-bold text-white mt-0.5">180 ms</div>
+            </div>
+            <div class="bg-white/5 p-2 rounded-lg">
+              <div class="text-[10px] text-white/50">Active Turnovers</div>
+              <div class="text-xs font-bold text-emerald-400 mt-0.5">342 / hr</div>
+            </div>
+            <div class="bg-white/5 p-2 rounded-lg">
+              <div class="text-[10px] text-white/50">Superchargers</div>
+              <div class="text-xs font-bold text-cyan-400 mt-0.5">15 / 16</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Testimonial / Security Guarantee Badge -->
+        <div class="relative z-10 flex items-center gap-3 pt-3 border-t border-white/10 text-white/70">
+          <div class="w-8 h-8 rounded-full bg-red-900/30 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+          </div>
+          <div class="text-xs">
+            <span class="font-medium text-white">Bank-Grade 256-Bit TLS Security</span>
+            <p class="text-[11px] text-white/50">ANPR plate tokens are cryptographically signed and stored on private edge hardware.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Dynamic Form Column (7 Cols on desktop) -->
+      <div class="lg:col-span-7 flex flex-col justify-center">
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: SIGN IN / LOGIN PAGE                   -->
+        <!-- ============================================== -->
+        <div id="view-login" class="bg-[#181818]/90 border border-white/10 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-xl relative transition-all duration-300">
+          
+          <!-- Segmented Driver vs Host Toggle -->
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+            <div class="inline-flex p-1 bg-[#121212] rounded-xl border border-white/10 text-xs">
+              <button id="role-driver-btn" onclick="setLoginRole('driver')" class="px-3.5 py-1.5 rounded-lg font-semibold bg-accent-red text-white transition-all shadow-md">
+                <i data-lucide="car" class="w-3.5 h-3.5 inline mr-1"></i> Park as Driver
+              </button>
+              <button id="role-host-btn" onclick="setLoginRole('host')" class="px-3.5 py-1.5 rounded-lg font-medium text-white/60 hover:text-white transition-all">
+                <i data-lucide="building-2" class="w-3.5 h-3.5 inline mr-1"></i> Mall Manager / Host
+              </button>
+            </div>
+            <span class="text-xs text-white/50 hidden sm:inline">v4.8.2 FastPass</span>
+          </div>
+
+          <!-- Form Header -->
+          <div class="mb-6">
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Welcome back</h1>
+            <p class="text-sm text-white/60 mt-1">Sign in to access reserved stalls, wallet balance, and barrier passes.</p>
+          </div>
+
+          <!-- Social Quick Login Options -->
+          <div class="grid grid-cols-2 gap-3 mb-5">
+            <button onclick="simulateOAuth('Google')" class="flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white transition hover:border-white/20">
+              <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.1 8.9 5 12 5z"/>
+                <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5.1 3.7-8.9z"/>
+                <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.7s.1-2 .4-2.7L1.6 6.4C.6 8.3 0 10.1 0 12s.6 3.7 1.6 5.6l3.7-2.9z"/>
+                <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/>
+              </svg>
+              <span>Google Account</span>
+            </button>
+            <button onclick="simulateOAuth('Apple')" class="flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white transition hover:border-white/20">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.64 1.35-.57.65-1.06 1.72-.93 2.74 1.02.08 2.03-.49 2.65-1.24z"/>
+              </svg>
+              <span>Apple ID</span>
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div class="relative flex py-2 items-center mb-5">
+            <div class="flex-grow border-t border-white/10"></div>
+            <span class="flex-shrink mx-4 text-[11px] font-medium text-white/40 uppercase tracking-widest">Or continue with credentials</span>
+            <div class="flex-grow border-t border-white/10"></div>
+          </div>
+
+          <!-- Form Controls -->
+          <form id="signin-form" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+            <!-- Email or Mobile -->
+            <div>
+              <label class="block text-xs font-semibold text-white/80 mb-1.5">Email or Philippine Mobile (+63)</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white/40">
+                  <i data-lucide="mail" class="w-4 h-4"></i>
+                </div>
+                <input 
+                  type="text" 
+                  id="login-identifier" 
+                  value="alexander.vance@sanpark.urban"
+                  required
+                  placeholder="name@email.com or +63 9XX XXX XXXX" 
+                  class="w-full pl-10 pr-4 py-2.5 bg-[#121212] border border-white/15 rounded-xl text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-sans"
+                />
+              </div>
+            </div>
+
+            <!-- Password with Show/Hide Toggle -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-semibold text-white/80">Password</label>
+                <button type="button" onclick="triggerForgotPassword()" class="text-xs text-red-400 hover:text-red-300 font-medium transition">Forgot password?</button>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white/40">
+                  <i data-lucide="lock" class="w-4 h-4"></i>
+                </div>
+                <input 
+                  type="password" 
+                  id="login-password" 
+                  value="SanPark#2025Secure"
+                  required
+                  placeholder="••••••••••••" 
+                  class="w-full pl-10 pr-10 py-2.5 bg-[#121212] border border-white/15 rounded-xl text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-mono"
+                />
+                <button 
+                  type="button" 
+                  onclick="togglePasswordVisibility('login-password', 'login-eye-icon')" 
+                  class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-white/40 hover:text-white/80 transition"
+                >
+                  <i id="login-eye-icon" data-lucide="eye" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Remember me & ANPR quick sync -->
+            <div class="flex items-center justify-between pt-1">
+              <label class="flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" checked class="w-4 h-4 rounded bg-[#121212] border-white/20 text-red-600 focus:ring-red-600/40 focus:ring-offset-0 focus:ring-offset-transparent">
+                <span class="text-xs text-white/70">Remember this device for 30 days</span>
+              </label>
+            </div>
+
+            <!-- Submit Primary CTA -->
+            <button 
+              type="submit" 
+              id="login-submit-btn"
+              class="w-full mt-3 py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-sm shadow-lg shadow-red-950/70 hover:shadow-red-700/30 transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
+            >
+              <span>Sign In to SanPark</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </form>
+
+          <!-- Footer Switcher -->
+          <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-white/60">
+            <span>New to SanPark smart parking?</span>
+            <button onclick="switchTab('register')" class="text-red-400 font-semibold hover:text-red-300 ml-1.5 transition underline-offset-4 hover:underline">
+              Create an account
+            </button>
+          </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: CREATE ACCOUNT / REGISTER PAGE         -->
+        <!-- ============================================== -->
+        <div id="view-register" class="hidden bg-[#181818]/90 border border-white/10 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-xl relative transition-all duration-300">
+          <!-- Form Header -->
+          <div class="mb-5">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-red-950/70 border border-red-800/40 text-red-400 mb-2">
+              <i data-lucide="sparkles" class="w-3 h-3"></i> Instant FastPass Activation
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Create your account</h1>
+            <p class="text-sm text-white/60 mt-1">Reserve stalls, link vehicle plates, and tap-out in under 3 seconds.</p>
+          </div>
+
+          <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5">
+            <!-- Full Name & Mobile in Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label class="block text-xs font-semibold text-white/80 mb-1">Full Legal Name</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <input 
+                    type="text" 
+                    id="reg-name" 
+                    required 
+                    placeholder="e.g. Maria Santos" 
+                    class="w-full pl-9 pr-3 py-2 bg-[#121212] border border-white/15 rounded-xl text-xs sm:text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-sans"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-white/80 mb-1">Mobile Number (+63 PH)</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40 text-xs font-mono font-bold">
+                    🇵🇭 +63
+                  </div>
+                  <input 
+                    type="tel" 
+                    id="reg-phone" 
+                    required 
+                    placeholder="917 555 0192" 
+                    value="917 555 0192"
+                    class="w-full pl-16 pr-3 py-2 bg-[#121212] border border-white/15 rounded-xl text-xs sm:text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-mono"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Address with Availability Indicator -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-semibold text-white/80">Corporate or Personal Email</label>
+                <span id="reg-email-status" class="text-[11px] font-mono text-emerald-400 flex items-center gap-1">
+                  <i data-lucide="check-circle-2" class="w-3 h-3"></i> Available
+                </span>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40">
+                  <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                </div>
+                <input 
+                  type="email" 
+                  id="reg-email" 
+                  required 
+                  value="maria.santos@sanpark.ph"
+                  oninput="checkEmailAvailability(this.value)"
+                  placeholder="driver@sanpark.ph" 
+                  class="w-full pl-9 pr-3 py-2 bg-[#121212] border border-white/15 rounded-xl text-xs sm:text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-sans"
+                />
+              </div>
+            </div>
+
+            <!-- Preferred Vehicle Type Selector (Chips) -->
+            <div>
+              <label class="block text-xs font-semibold text-white/80 mb-1.5">Primary Vehicle Archetype</label>
+              <div class="grid grid-cols-4 gap-2">
+                <button type="button" onclick="selectVehicleType('sedan')" id="vtype-sedan" class="vtype-pill py-2 px-1 text-center rounded-xl bg-accent-red border border-red-500 text-white transition-all flex flex-col items-center justify-center gap-1">
+                  <span class="text-base">🚗</span>
+                  <span class="text-[10px] font-bold">Sedan</span>
+                </button>
+                <button type="button" onclick="selectVehicleType('suv')" id="vtype-suv" class="vtype-pill py-2 px-1 text-center rounded-xl bg-[#121212] border border-white/10 text-white/70 hover:text-white transition-all flex flex-col items-center justify-center gap-1">
+                  <span class="text-base">🚙</span>
+                  <span class="text-[10px] font-medium">SUV / Van</span>
+                </button>
+                <button type="button" onclick="selectVehicleType('motorcycle')" id="vtype-motorcycle" class="vtype-pill py-2 px-1 text-center rounded-xl bg-[#121212] border border-white/10 text-white/70 hover:text-white transition-all flex flex-col items-center justify-center gap-1">
+                  <span class="text-base">🏍️</span>
+                  <span class="text-[10px] font-medium">Motorcycle</span>
+                </button>
+                <button type="button" onclick="selectVehicleType('ev')" id="vtype-ev" class="vtype-pill py-2 px-1 text-center rounded-xl bg-[#121212] border border-white/10 text-white/70 hover:text-white transition-all flex flex-col items-center justify-center gap-1">
+                  <span class="text-base">⚡</span>
+                  <span class="text-[10px] font-medium">Electric (EV)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Vehicle Plate Number (Optional but emphasized for ANPR) -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-semibold text-white/80">Vehicle Plate Number (ANPR Auto-Gate)</label>
+                <span class="text-[10px] text-white/40">Optional • FastPass</span>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40">
+                  <i data-lucide="hash" class="w-3.5 h-3.5"></i>
+                </div>
+                <input 
+                  type="text" 
+                  id="reg-plate" 
+                  value="NCD 5821"
+                  placeholder="e.g. ABC 1234" 
+                  oninput="this.value = this.value.toUpperCase()"
+                  class="w-full pl-9 pr-3 py-2 bg-[#121212] border border-white/15 rounded-xl text-xs sm:text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-mono uppercase tracking-wider"
+                />
+              </div>
+              <p class="text-[10px] text-white/40 mt-1 flex items-center gap-1">
+                <i data-lucide="info" class="w-3 h-3 text-red-400 shrink-0"></i>
+                Used by overhead cameras to raise barrier gates automatically upon approach.
+              </p>
+            </div>
+
+            <!-- Password with Dynamic Strength Meter -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-semibold text-white/80">Secure Password</label>
+                <span id="strength-label" class="text-[11px] font-semibold text-status-amber">Medium Strength</span>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/40">
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </div>
+                <input 
+                  type="password" 
+                  id="reg-password" 
+                  value="Pass#2025!"
+                  required
+                  oninput="calculatePasswordStrength(this.value)"
+                  placeholder="At least 8 characters with numbers & symbols" 
+                  class="w-full pl-9 pr-10 py-2 bg-[#121212] border border-white/15 rounded-xl text-xs sm:text-sm text-white placeholder-white/30 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition-all font-mono"
+                />
+                <button 
+                  type="button" 
+                  onclick="togglePasswordVisibility('reg-password', 'reg-eye-icon')" 
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white/80 transition"
+                >
+                  <i id="reg-eye-icon" data-lucide="eye" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+
+              <!-- Live Strength Progress Bar -->
+              <div class="w-full bg-[#121212] rounded-full h-1.5 mt-2 overflow-hidden border border-white/5">
+                <div id="strength-bar" class="h-full bg-status-amber transition-all duration-300 w-2/3"></div>
+              </div>
+
+              <!-- Password Requirement Badges -->
+              <div class="flex items-center gap-3 mt-1.5 text-[10px] text-white/50">
+                <span id="req-len" class="flex items-center gap-1 text-emerald-400">
+                  <i data-lucide="check" class="w-2.5 h-2.5"></i> 8+ chars
+                </span>
+                <span id="req-num" class="flex items-center gap-1 text-emerald-400">
+                  <i data-lucide="check" class="w-2.5 h-2.5"></i> 1 number
+                </span>
+                <span id="req-sym" class="flex items-center gap-1 text-emerald-400">
+                  <i data-lucide="check" class="w-2.5 h-2.5"></i> 1 symbol
+                </span>
+              </div>
+            </div>
+
+            <!-- Terms Agreement Checkbox -->
+            <div class="pt-1">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" required checked class="w-4 h-4 mt-0.5 rounded bg-[#121212] border-white/20 text-red-600 focus:ring-red-600/40 focus:ring-offset-0">
+                <span class="text-xs text-white/60 leading-snug">
+                  I agree to the <a href="#" class="text-white hover:underline">SanPark Parking Terms</a> and consent to ANPR optical plate processing under Philippine Data Privacy Act.
+                </span>
+              </label>
+            </div>
+
+            <!-- Submit CTA -->
+            <button 
+              type="submit" 
+              class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-sm shadow-lg shadow-red-950/70 hover:shadow-red-700/30 transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
+            >
+              <span>Create Account & Verify</span>
+              <i data-lucide="shield-check" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+            </button>
+          </form>
+
+          <!-- Footer Switcher -->
+          <div class="mt-4 pt-4 border-t border-white/10 text-center text-xs text-white/60">
+            <span>Already have a SanPark profile?</span>
+            <button onclick="switchTab('login')" class="text-red-400 font-semibold hover:text-red-300 ml-1.5 transition underline-offset-4 hover:underline">
+              Sign In
+            </button>
+          </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: 6-DIGIT OTP SECURITY VERIFICATION      -->
+        <!-- ============================================== -->
+        <div id="view-otp" class="hidden bg-[#181818]/90 border border-white/10 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-xl relative transition-all duration-300">
+          
+          <!-- Back button -->
+          <div class="mb-4">
+            <button onclick="switchTab('register')" class="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white transition">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Back to Account Setup</span>
+            </button>
+          </div>
+
+          <!-- Pulsing Shield Visual Header -->
+          <div class="flex flex-col items-center text-center mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600/30 to-red-950/50 border border-red-500/40 text-red-500 flex items-center justify-center shadow-lg shadow-red-950/80 mb-3 relative">
+              <span class="absolute inset-0 rounded-2xl bg-red-600/20 animate-ping opacity-30 pointer-events-none"></span>
+              <i data-lucide="shield-check" class="w-7 h-7"></i>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Two-Factor Security Verification</h1>
+            <p class="text-xs sm:text-sm text-white/60 mt-1 max-w-sm">
+              We dispatched a 6-digit authentication token to <br/>
+              <span id="otp-target-display" class="font-mono font-bold text-white">driver@sanpark.ph</span>
+              <button onclick="changeOtpTargetPrompt()" class="text-red-400 hover:text-red-300 text-xs ml-1 underline">Change</button>
+            </p>
+          </div>
+
+          <!-- OTP Card with Interactive Auto-Advancing Boxes -->
+          <div id="otp-card-container" class="space-y-6">
+            <!-- 6 Auto-Advancing Input Boxes -->
+            <div>
+              <div class="flex items-center justify-center gap-2 sm:gap-3" id="otp-inputs-wrapper">
+                <input type="text" maxlength="1" autofocus inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="0" value="1" />
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="1" value="2" />
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="2" value="3" />
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="3" value="4" />
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="4" value="5" />
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box w-11 h-13 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-mono font-black rounded-xl bg-[#121212] border border-white/20 text-white focus:outline-none transition-all" data-index="5" value="6" />
+              </div>
+              <p id="otp-error-msg" class="text-xs text-status-red font-medium text-center mt-2.5 hidden">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 inline mr-1"></i> Invalid token. For demo evaluation, enter <strong>123456</strong>.
+              </p>
+            </div>
+
+            <!-- Quick Auto-Fill Demo Pill -->
+            <div class="flex items-center justify-center">
+              <button type="button" onclick="fillCorrectDemoOtp()" class="text-[11px] font-mono text-white/50 hover:text-emerald-400 bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1 rounded-full transition flex items-center gap-1.5">
+                <i data-lucide="key" class="w-3 h-3 text-emerald-400"></i>
+                <span>Quick Test: Auto-fill Valid OTP (123456)</span>
+              </button>
+            </div>
+
+            <!-- Simulated Resend Timer -->
+            <div class="flex items-center justify-between p-3 rounded-xl bg-[#121212] border border-white/10 text-xs">
+              <div class="flex items-center gap-2 text-white/70">
+                <i data-lucide="clock" class="w-4 h-4 text-red-500"></i>
+                <span>Code expires in:</span>
+                <span id="countdown-timer" class="font-mono font-bold text-white">00:48</span>
+              </div>
+              <button 
+                id="resend-otp-btn" 
+                onclick="triggerResendOtp()" 
+                class="font-semibold text-red-400 hover:text-red-300 transition flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                <span>Resend Code</span>
+              </button>
+            </div>
+
+            <!-- Action CTA Button -->
+            <button 
+              type="button" 
+              onclick="verifySubmittedOtp()" 
+              id="verify-otp-submit-btn"
+              class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-sm shadow-lg shadow-red-950/70 hover:shadow-red-700/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Verify & Access Dashboard</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Successful Simulated State View (Hidden by default) -->
+          <div id="otp-success-state" class="hidden flex-col items-center text-center py-6">
+            <div class="w-16 h-16 rounded-full bg-emerald-950/60 border border-emerald-500/60 text-emerald-400 flex items-center justify-center shadow-xl shadow-emerald-950/80 mb-3 animate-bounce">
+              <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white">Identity Confirmed!</h2>
+            <p class="text-xs text-white/60 mt-1 max-w-xs">
+              Session token verified with ANPR FastPass nodes. Redirecting to SanPark Discovery Radar...
+            </p>
+            <div class="w-48 bg-[#121212] rounded-full h-1.5 mt-4 overflow-hidden border border-white/10">
+              <div class="h-full bg-emerald-500 animate-pulse w-full"></div>
+            </div>
+          </div>
+
+          <!-- Help Footer -->
+          <div class="mt-6 pt-4 border-t border-white/10 text-center text-xs text-white/50">
+            <span>Having trouble receiving SMS or Email?</span>
+            <a href="#" onclick="showCustomToast('Support pinged', 'Connecting to 24/7 SanPark Concierge.'); return false;" class="text-red-400 font-semibold hover:text-red-300 ml-1">Contact Concierge</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="w-full border-t border-white/5 bg-[#0e0e0e]/80 backdrop-blur-md py-4 text-xs text-white/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span>SanPark Production Architecture • TLS 1.3 Edge Node #MNL-04</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-white transition">Privacy Policy</a>
+        <span>•</span>
+        <a href="#" class="hover:text-white transition">Barrier FastPass Protocols</a>
+        <span>•</span>
+        <a href="#" class="hover:text-white transition">System SLA 99.98%</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Interactions & State Controllers -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Tab Navigation Switcher Logic
+    function switchTab(tab) {
+      const views = ['login', 'register', 'otp'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-btn-${v}`);
+        if (v === tab) {
+          el.classList.remove('hidden');
+          btn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-accent-red text-white shadow-md shadow-red-900/30";
+        } else {
+          el.classList.add('hidden');
+          btn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white transition-all duration-200";
+        }
+      });
+      // Re-render icons if any were dynamically hidden
+      lucide.createIcons();
+    }
+
+    // Role Switcher for Driver vs Mall Host
+    let currentLoginRole = 'driver';
+    function setLoginRole(role) {
+      currentLoginRole = role;
+      const driverBtn = document.getElementById('role-driver-btn');
+      const hostBtn = document.getElementById('role-host-btn');
+      const identifierInput = document.getElementById('login-identifier');
+
+      if (role === 'driver') {
+        driverBtn.className = "px-3.5 py-1.5 rounded-lg font-semibold bg-accent-red text-white transition-all shadow-md";
+        hostBtn.className = "px-3.5 py-1.5 rounded-lg font-medium text-white/60 hover:text-white transition-all";
+        identifierInput.value = "alexander.vance@sanpark.urban";
+        showCustomToast("Driver Mode Active", "Switched to standard driver credentials and saved stalls.");
+      } else {
+        hostBtn.className = "px-3.5 py-1.5 rounded-lg font-semibold bg-accent-red text-white transition-all shadow-md";
+        driverBtn.className = "px-3.5 py-1.5 rounded-lg font-medium text-white/60 hover:text-white transition-all";
+        identifierInput.value = "ops.manager@megamall.sanpark.ph";
+        showCustomToast("Host / Mall Manager Mode", "Switched to supervisor gate overrides and barrier logs.");
+      }
+    }
+
+    // Vehicle Archetype Selection
+    let selectedVehicleType = 'sedan';
+    function selectVehicleType(type) {
+      selectedVehicleType = type;
+      const types = ['sedan', 'suv', 'motorcycle', 'ev'];
+      types.forEach(t => {
+        const btn = document.getElementById(`vtype-${t}`);
+        if (t === type) {
+          btn.className = "vtype-pill py-2 px-1 text-center rounded-xl bg-accent-red border border-red-500 text-white transition-all flex flex-col items-center justify-center gap-1 shadow-md shadow-red-900/40";
+        } else {
+          btn.className = "vtype-pill py-2 px-1 text-center rounded-xl bg-[#121212] border border-white/10 text-white/70 hover:text-white transition-all flex flex-col items-center justify-center gap-1";
+        }
+      });
+    }
+
+    // Password Show/Hide Toggle
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    // Password Strength Calculation
+    function calculatePasswordStrength(pass) {
+      const bar = document.getElementById('strength-bar');
+      const label = document.getElementById('strength-label');
+      const reqLen = document.getElementById('req-len');
+      const reqNum = document.getElementById('req-num');
+      const reqSym = document.getElementById('req-sym');
+
+      const hasLen = pass.length >= 8;
+      const hasNum = /\d/.test(pass);
+      const hasSym = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
+
+      // Update badge checks
+      updateRequirement(reqLen, hasLen, '8+ chars');
+      updateRequirement(reqNum, hasNum, '1 number');
+      updateRequirement(reqSym, hasSym, '1 symbol');
+
+      let score = 0;
+      if (hasLen) score++;
+      if (hasNum) score++;
+      if (hasSym) score++;
+
+      if (score <= 1) {
+        bar.className = "h-full bg-status-red transition-all duration-300 w-1/3";
+        label.className = "text-[11px] font-semibold text-status-red";
+        label.innerText = "Weak Password";
+      } else if (score === 2) {
+        bar.className = "h-full bg-status-amber transition-all duration-300 w-2/3";
+        label.className = "text-[11px] font-semibold text-status-amber";
+        label.innerText = "Medium Strength";
+      } else {
+        bar.className = "h-full bg-status-green transition-all duration-300 w-full";
+        label.className = "text-[11px] font-semibold text-status-green";
+        label.innerText = "Strong Password (Encrypted)";
+      }
+    }
+
+    function updateRequirement(el, valid, text) {
+      if (valid) {
+        el.className = "flex items-center gap-1 text-emerald-400";
+        el.innerHTML = `<i data-lucide="check" class="w-2.5 h-2.5"></i> ${text}`;
+      } else {
+        el.className = "flex items-center gap-1 text-white/30";
+        el.innerHTML = `<i data-lucide="circle" class="w-2.5 h-2.5"></i> ${text}`;
+      }
+      lucide.createIcons();
+    }
+
+    // Email availability simulation
+    function checkEmailAvailability(email) {
+      const statusEl = document.getElementById('reg-email-status');
+      if (email.includes('@') && email.includes('.')) {
+        statusEl.className = "text-[11px] font-mono text-emerald-400 flex items-center gap-1";
+        statusEl.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3"></i> Available`;
+      } else {
+        statusEl.className = "text-[11px] font-mono text-status-amber flex items-center gap-1";
+        statusEl.innerHTML = `<i data-lucide="alert-circle" class="w-3 h-3"></i> Invalid Format`;
+      }
+      lucide.createIcons();
+    }
+
+    // Toast Notification Controller
+    let toastTimeout;
+    function showCustomToast(title, description, isSuccess = true) {
+      const toast = document.getElementById('global-toast');
+      const titleEl = document.getElementById('toast-title');
+      const descEl = document.getElementById('toast-desc');
+      const iconEl = document.getElementById('toast-icon');
+      const iconWrap = document.getElementById('toast-icon-wrapper');
+
+      titleEl.innerText = title;
+      descEl.innerText = description;
+
+      if (isSuccess) {
+        iconWrap.className = "w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5";
+        iconEl.setAttribute('data-lucide', 'check-circle-2');
+      } else {
+        iconWrap.className = "w-8 h-8 rounded-lg bg-red-600/20 text-red-400 flex items-center justify-center shrink-0 mt-0.5";
+        iconEl.setAttribute('data-lucide', 'alert-triangle');
+      }
+      lucide.createIcons();
+
+      toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-[-150%]', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 4000);
+    }
+
+    function toggleQuickDemoToast() {
+      showCustomToast("SanPark Auth Suite", "Interactive mockups with full keyboard navigation and OTP auto-fill.");
+    }
+
+    // Login Form Submit Simulation
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('login-submit-btn');
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> <span>Verifying Credentials...</span>`;
+      lucide.createIcons();
+
+      setTimeout(() => {
+        btn.innerHTML = `<span>Sign In to SanPark</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+        lucide.createIcons();
+        showCustomToast("Sign In Verified", "2FA Security Challenge triggered. Please input your OTP token.");
+        switchTab('otp');
+      }, 750);
+    }
+
+    // Register Form Submit Simulation
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('reg-email').value;
+      document.getElementById('otp-target-display').innerText = email || 'driver@sanpark.ph';
+      showCustomToast("Account Initialized", "Dispatched 6-digit FastPass verification token to your inbox.");
+      switchTab('otp');
+    }
+
+    // OAuth Social Simulation
+    function simulateOAuth(provider) {
+      showCustomToast(`${provider} Connect`, `Handshaking with ${provider} identity provider. Auto-filling profile credentials.`);
+      setTimeout(() => {
+        switchTab('otp');
+      }, 800);
+    }
+
+    // Forgot Password Simulation
+    function triggerForgotPassword() {
+      const email = document.getElementById('login-identifier').value;
+      showCustomToast("Password Recovery Dispatched", `A secure reset link has been dispatched to ${email || 'your registered address'}.`);
+    }
+
+    // OTP 6-Digit Auto-Advancing Boxes
+    const otpBoxes = document.querySelectorAll('.otp-box');
+    otpBoxes.forEach((box, index) => {
+      box.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (val.length === 1 && index < otpBoxes.length - 1) {
+          otpBoxes[index + 1].focus();
+        }
+      });
+
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          otpBoxes[index - 1].focus();
+        }
+      });
+
+      box.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+        if (/^\d+$/.test(pasteData)) {
+          const digits = pasteData.slice(0, 6).split('');
+          digits.forEach((d, i) => {
+            if (otpBoxes[i]) otpBoxes[i].value = d;
+          });
+          if (digits.length >= 6) {
+            verifySubmittedOtp();
+          } else if (otpBoxes[digits.length]) {
+            otpBoxes[digits.length].focus();
+          }
+        }
+      });
+    });
+
+    function fillCorrectDemoOtp() {
+      const demo = ['1', '2', '3', '4', '5', '6'];
+      otpBoxes.forEach((box, i) => {
+        box.value = demo[i];
+      });
+      document.getElementById('otp-error-msg').classList.add('hidden');
+      showCustomToast("OTP Auto-Filled", "Demo token 123456 loaded. Click 'Verify & Access Dashboard'.");
+    }
+
+    function verifySubmittedOtp() {
+      let enteredCode = '';
+      otpBoxes.forEach(b => enteredCode += b.value);
+
+      const errorMsg = document.getElementById('otp-error-msg');
+      const cardContainer = document.getElementById('otp-card-container');
+      const successState = document.getElementById('otp-success-state');
+
+      if (enteredCode === '123456') {
+        errorMsg.classList.add('hidden');
+        cardContainer.classList.add('hidden');
+        successState.classList.remove('hidden');
+        successState.classList.add('flex');
+        lucide.createIcons();
+        showCustomToast("Access Granted", "Welcome to SanPark Urban Hub. All gates unlocked.");
+      } else {
+        errorMsg.classList.remove('hidden');
+        cardContainer.classList.add('animate-shake');
+        setTimeout(() => {
+          cardContainer.classList.remove('animate-shake');
+        }, 500);
+        showCustomToast("Verification Failed", "Entered token does not match. Demo code is 123456.", false);
+      }
+    }
+
+    // Countdown Timer logic
+    let secondsLeft = 48;
+    const timerDisplay = document.getElementById('countdown-timer');
+    const resendBtn = document.getElementById('resend-otp-btn');
+
+    setInterval(() => {
+      if (secondsLeft > 0) {
+        secondsLeft--;
+        const mins = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+        const secs = String(secondsLeft % 60).padStart(2, '0');
+        timerDisplay.innerText = `${mins}:${secs}`;
+      } else {
+        resendBtn.disabled = false;
+        resendBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+      }
+    }, 1000);
+
+    function triggerResendOtp() {
+      secondsLeft = 60;
+      showCustomToast("New Token Dispatched", "A fresh 6-digit security code has been transmitted.");
+      resendBtn.disabled = true;
+    }
+
+    function changeOtpTargetPrompt() {
+      const newEmail = prompt("Enter updated verification email or mobile number:", "alexander.vance@sanpark.urban");
+      if (newEmail) {
+        document.getElementById('otp-target-display').innerText = newEmail;
+        showCustomToast("Target Destination Updated", `Future authentication challenges will route to ${newEmail}`);
+      }
+    }
+  </script>
+</body>
+</html>

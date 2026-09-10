@@ -10,13 +10,29 @@ import {
 
 const AppContext = createContext();
 
+export const DEMO_ACCOUNTS = {
+  user: {
+    email: 'user@sanpark.ph',
+    password: 'SanParkUser#2025',
+    name: 'Mark Cruz',
+  },
+  admin: {
+    email: 'admin@sanpark.ph',
+    password: 'SanParkAdmin#2025',
+    name: 'SanPark Admin',
+  },
+};
+
 export function AppProvider({ children }) {
+  const [userRole, setUserRole] = useState('user');
+  const [currentUser, setCurrentUser] = useState(DEMO_ACCOUNTS.user);
   const [activeView, setActiveView] = useState('find-parking');
   const [hubs, setHubs] = useState(INITIAL_PARKING_HUBS);
   const [vehicles, setVehicles] = useState(INITIAL_VEHICLES);
   const [payments, setPayments] = useState(INITIAL_PAYMENTS);
   const [sessions, setSessions] = useState(INITIAL_MANAGER_SESSIONS);
   const [history, setHistory] = useState(INITIAL_USER_HISTORY);
+  const [customerReservations, setCustomerReservations] = useState([]);
   
   // Floor plan & booking modal state
   const [floorPlanModalOpen, setFloorPlanModalOpen] = useState(false);
@@ -38,6 +54,24 @@ export function AppProvider({ children }) {
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);
+  };
+
+  const signIn = (email, password) => {
+    const account = Object.entries(DEMO_ACCOUNTS).find(([, credentials]) => (
+      credentials.email === email.trim().toLowerCase() && credentials.password === password
+    ));
+
+    if (!account) return false;
+
+    const [role, credentials] = account;
+    setUserRole(role);
+    setCurrentUser(credentials);
+    return true;
+  };
+
+  const signOut = () => {
+    setUserRole('user');
+    setCurrentUser(DEMO_ACCOUNTS.user);
   };
 
   const selectedVehicle = vehicles.find(v => v.isDefault) || vehicles[0];
@@ -93,7 +127,7 @@ export function AppProvider({ children }) {
     setSelectedSlot(slotId);
   };
 
-  const bookSlot = (hub, slotId) => {
+  const bookSlot = (hub, slotId, customerDetails = null) => {
     if (!slotId) return;
     
     // Mark slot as occupied
@@ -109,14 +143,14 @@ export function AppProvider({ children }) {
     // Reduce slot count in hub
     setHubs(prev => prev.map(h => h.id === hub.id ? { ...h, slotsLeft: Math.max(0, h.slotsLeft - 1) } : h));
 
-    // Add session to manager portal
+    const isAdminBooking = userRole === 'admin' && customerDetails;
     const newSession = {
       id: `ses-${Date.now()}`,
       vehicle: selectedVehicle.model,
       plate: selectedVehicle.plate.replace(/[^A-Za-z0-9-]/g, ' ').trim(),
       category: selectedVehicle.isEv ? 'EV' : 'SED',
       bay: `${activeLevel}-${slotId}`,
-      driver: 'Mark Cruz',
+      driver: isAdminBooking ? customerDetails.name : currentUser.name,
       duration: 'Just reserved',
       remaining: '04:00:00 remaining',
       status: 'Active Session',
@@ -124,15 +158,32 @@ export function AppProvider({ children }) {
     };
     setSessions(prev => [newSession, ...prev]);
 
+    if (isAdminBooking) {
+      setCustomerReservations(prev => [{
+        ...newSession,
+        customerName: customerDetails.name,
+        customerEmail: customerDetails.email,
+        customerPlate: customerDetails.plate,
+        createdBy: currentUser.name,
+        createdAt: new Date().toLocaleString(),
+      }, ...prev]);
+    }
+
     closeFloorPlan();
-    showToast(`Successfully locked slot ${slotId} at ${hub.name}!`);
-    setActiveView('my-bookings');
+    showToast(isAdminBooking
+      ? `Customer reservation created for ${customerDetails.name}`
+      : `Successfully locked slot ${slotId} at ${hub.name}!`);
+    setActiveView(isAdminBooking ? 'customer-reservations' : 'my-bookings');
   };
 
   return (
     <AppContext.Provider value={{
       activeView,
       setActiveView,
+      userRole,
+      currentUser,
+      signIn,
+      signOut,
       hubs,
       vehicles,
       selectedVehicle,
@@ -143,6 +194,7 @@ export function AppProvider({ children }) {
       addPaymentMethod,
       sessions,
       history,
+      customerReservations,
       floorPlanModalOpen,
       openFloorPlan,
       closeFloorPlan,

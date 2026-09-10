@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
@@ -14,8 +14,11 @@ export default function FloorPlanModal() {
     setActiveLevel, 
     slotsState,
     bookSlot,
-    surgePricingActive 
+    surgePricingActive,
+    userRole,
+    showToast,
   } = useApp();
+  const [customerDetails, setCustomerDetails] = useState({ name: '', email: '', plate: '' });
 
   if (!floorPlanModalOpen || !selectedHub) return null;
 
@@ -24,8 +27,12 @@ export default function FloorPlanModal() {
 
   const handleProceedCheckout = () => {
     if (!selectedSlot) return;
-    bookSlot(selectedHub, selectedSlot);
-    navigate('/my-bookings');
+    if (userRole === 'admin' && Object.values(customerDetails).some(value => !value.trim())) {
+      showToast('Enter the customer name, email, and vehicle plate first');
+      return;
+    }
+    bookSlot(selectedHub, selectedSlot, userRole === 'admin' ? customerDetails : null);
+    navigate(userRole === 'admin' ? '/customer-reservations' : '/my-bookings');
   };
 
   return (
@@ -162,6 +169,19 @@ export default function FloorPlanModal() {
 
         {/* Modal Footer Checkout Summary */}
         <div className="p-space-md bg-surface-container-high flex flex-col sm:flex-row items-center justify-between border-t border-surface-container-highest gap-space-sm">
+          {userRole === 'admin' && (
+            <div className="w-full rounded-xl border border-primary/30 bg-primary-container/10 p-space-sm">
+              <div className="mb-2 flex items-center gap-2 text-label-md font-semibold text-primary">
+                <span className="material-symbols-outlined text-[18px]">person_add</span>
+                Customer details for this reservation
+              </div>
+              <div className="grid gap-2 md:grid-cols-3">
+                <input required placeholder="Customer name" value={customerDetails.name} onChange={e => setCustomerDetails(prev => ({ ...prev, name: e.target.value }))} className="rounded-lg border border-surface-container-highest bg-surface-container-lowest px-3 py-2 text-body-sm text-on-surface outline-none focus:border-primary" />
+                <input required type="email" placeholder="Customer email" value={customerDetails.email} onChange={e => setCustomerDetails(prev => ({ ...prev, email: e.target.value }))} className="rounded-lg border border-surface-container-highest bg-surface-container-lowest px-3 py-2 text-body-sm text-on-surface outline-none focus:border-primary" />
+                <input required placeholder="Vehicle plate" value={customerDetails.plate} onChange={e => setCustomerDetails(prev => ({ ...prev, plate: e.target.value.toUpperCase() }))} className="rounded-lg border border-surface-container-highest bg-surface-container-lowest px-3 py-2 text-body-sm font-mono text-on-surface outline-none focus:border-primary" />
+              </div>
+            </div>
+          )}
           <div className="flex items-center space-x-space-sm w-full sm:w-auto">
             <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container shadow-md">
               <span className="material-symbols-outlined text-[24px]">local_parking</span>
