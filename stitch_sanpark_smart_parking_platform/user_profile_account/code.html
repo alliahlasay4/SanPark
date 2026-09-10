@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {"darkMode": "class", "theme": {"extend": {"colors": {"on-secondary-fixed": "#1b1b1c", "surface-container-low": "#1c1b1b", "secondary": "#c8c6c5", "on-tertiary-container": "#f8f9ff", "secondary-container": "#474746", "error-container": "#93000a", "on-tertiary-fixed": "#001b3c", "primary": "#ffb4aa", "surface-container-high": "#2a2a2a", "inverse-primary": "#c0000c", "on-secondary-fixed-variant": "#474746", "primary-fixed": "#ffdad5", "on-primary": "#690003", "inverse-surface": "#e5e2e1", "on-secondary-container": "#b7b5b4", "on-surface-variant": "#e9bcb6", "on-secondary": "#303030", "surface-container-lowest": "#0e0e0e", "primary-fixed-dim": "#ffb4aa", "on-background": "#e5e2e1", "secondary-fixed-dim": "#c8c6c5", "surface-tint": "#ffb4aa", "on-primary-fixed-variant": "#930007", "on-tertiary-fixed-variant": "#004689", "outline": "#af8782", "on-primary-fixed": "#410001", "on-tertiary": "#003061", "tertiary-fixed": "#d5e3ff", "on-error-container": "#ffdad6", "surface-variant": "#353534", "outline-variant": "#5e3f3b", "surface-container-highest": "#353534", "surface": "#131313", "tertiary-fixed-dim": "#a7c8ff", "inverse-on-surface": "#313030", "surface-container": "#201f1f", "primary-container": "#e50914", "tertiary-container": "#0072d7", "surface-bright": "#393939", "background": "#131313", "secondary-fixed": "#e5e2e1", "tertiary": "#a7c8ff", "on-error": "#690005", "on-surface": "#e5e2e1", "error": "#ffb4ab"}, "borderRadius": {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"}, "spacing": {"container-margin": "1rem", "space-sm": "1rem", "grid-gutter": "1rem", "space-xl": "3rem", "space-xs": "0.75rem", "space-md": "1.5rem", "space-lg": "2rem", "space-2xs": "0.5rem", "space-3xs": "0.25rem"}, "fontFamily": {"body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "label-lg": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "body-lg": ["Inter"]}, "fontSize": {"body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}], "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "500"}], "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600"}], "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}], "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}], "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}], "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}], "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]}}}};</script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-container-margin md:px-space-xl flex items-center justify-between"><div class="flex items-center space-x-space-sm"><img alt="Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4C8hFEwX2EhMyv493LYvOK55yK9lF7Z1loCqWpS5SRBcl5prMkCNthe0oxmAJw7-8OENvdRBEEQgBU0t3UHwVG7Bh0CuLnOop47e6DdESu-dt3NIlotkH66xZO0Z_X5kXRMFm_7QAB7Lrwgs28ltnhnzf3SLCfS0KVEn5Yh3W4owGf2kh1pKM_HW8DlUfP6SjDKiTocUdLjFDYh4BViSsIvWItZ9zjqXGnlHDzPeVOJBVx2y-RaYH"/><span class="text-headline-sm font-headline-sm tracking-tight text-on-surface">SanPark</span></div><nav class="hidden lg:flex items-center space-x-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="find-parking" href="#">Find Parking</a><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="my-bookings" href="#">My Bookings</a><a aria-current="page" class="transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="mall-manager-portal" href="#">Mall Manager Portal</a></nav><div class="flex items-center space-x-space-sm"><div class="hidden sm:flex items-center bg-surface-container-high px-space-2xs py-space-3xs rounded-lg text-label-md text-secondary"><span class="material-symbols-outlined text-[16px] mr-1">directions_car</span><span>Toyota Vios (PHP)</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full text-on-surface">
+<!-- Interactive Dashboard Banner / Profile Overview -->
+<div class="relative w-full overflow-hidden bg-surface-container-low px-container-margin md:px-space-xl py-space-xl">
+<div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute right-1/3 -bottom-20 w-80 h-80 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md relative z-10">
+<div class="flex items-center space-x-space-md">
+<div class="relative">
+<div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-surface-container-high ring-4 ring-primary-container/30 shadow-xl">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a friendly Asian male in his early 30s named Mark Cruz, wearing a dark casual smart blazer, smiling warmly against a moody dark charcoal backdrop with subtle cinematic rim lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5bvRdWVC7p9MesXQArQVjMgCtcxzoeW5NMAfuQN6x5_pwVnCOx3LKfDQRNXqpELEVFQUCjoEWGswiEpFxpWfqhGiS5iHcsmToBdfNYipmV6M3M8F8HgyfE5778DBh1pHihPt85W0iWjbm7IaBOiwfgQUkAbE8xzvOBkEf2pPXhxsCY8tNiDhWmKPw4RTDytvTxRlGvVL64_GzDSP5dObdYB7KKj037uV62M8uztKUiCnvtIFHy1-A"/>
+</div>
+<span class="absolute bottom-0 right-0 bg-primary-container text-on-primary-container px-space-2xs py-space-3xs rounded-full text-label-sm font-label-sm shadow-md flex items-center space-x-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>ELITE</span>
+</span>
+</div>
+<div>
+<div class="flex items-center space-x-space-2xs">
+<span class="text-label-sm uppercase tracking-wider text-primary-fixed-dim">SanPark Elite Member</span>
+<span class="text-outline">•</span>
+<span class="text-body-sm text-secondary">Member since 2022</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface mt-1">Mark Cruz</h1>
+<p class="text-body-md text-secondary mt-0.5">mark.cruz@sanpark.io • +63 917 555 0192</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm bg-surface-container p-space-md rounded-xl shadow-lg w-full md:w-auto">
+<div class="flex items-center space-x-space-sm pr-space-md">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<div class="text-body-sm text-secondary">Loyalty Balance</div>
+<div class="text-headline-md font-headline-md text-on-surface">2,450 <span class="text-primary-fixed-dim text-body-md font-body-md">pts</span></div>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-space-md py-space-2xs rounded-lg text-label-lg font-label-lg hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs" onclick="alert('Redeem rewards modal opened!')">
+<span class="material-symbols-outlined text-[18px]">redeem</span>
+<span>Redeem Rewards</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="sticky top-16 z-40 bg-surface/90 backdrop-blur-md px-container-margin md:px-space-xl border-b border-surface-container-high">
+<div class="max-w-7xl mx-auto flex space-x-space-lg overflow-x-auto">
+<button class="tab-btn py-space-md text-label-lg font-label-lg border-b-2 border-primary-container text-on-surface transition-colors whitespace-nowrap flex items-center space-x-space-2xs" id="tab-btn-profile" onclick="switchTab('profile')">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>General &amp; Security</span>
+</button>
+<button class="tab-btn py-space-md text-label-lg font-label-lg border-b-2 border-transparent text-secondary hover:text-on-surface transition-colors whitespace-nowrap flex items-center space-x-space-2xs" id="tab-btn-vehicles" onclick="switchTab('vehicles')">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+<span>Saved Vehicles <span class="bg-surface-container-high px-1.5 py-0.2 rounded-full text-xs text-primary-fixed-dim">3</span></span>
+</button>
+<button class="tab-btn py-space-md text-label-lg font-label-lg border-b-2 border-transparent text-secondary hover:text-on-surface transition-colors whitespace-nowrap flex items-center space-x-space-2xs" id="tab-btn-payments" onclick="switchTab('payments')">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span>Payment Methods <span class="bg-surface-container-high px-1.5 py-0.2 rounded-full text-xs text-primary-fixed-dim">3</span></span>
+</button>
+<button class="tab-btn py-space-md text-label-lg font-label-lg border-b-2 border-transparent text-secondary hover:text-on-surface transition-colors whitespace-nowrap flex items-center space-x-space-2xs" id="tab-btn-stats" onclick="switchTab('stats')">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span>Parking Stats &amp; History</span>
+</button>
+</div>
+</div>
+<!-- Content Container -->
+<div class="max-w-7xl mx-auto w-full px-container-margin md:px-space-xl py-space-lg space-y-space-xl">
+<!-- TAB 1: GENERAL & SECURITY -->
+<div class="tab-content space-y-space-lg" id="tab-profile">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Personal Info Form -->
+<div class="lg:col-span-2 bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
+<h2 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs">
+<span class="material-symbols-outlined text-primary-fixed-dim">badge</span>
+<span>Personal Information</span>
+</h2>
+<button class="text-label-md text-primary-fixed-dim hover:underline flex items-center space-x-1">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit Details</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Full Name</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" readonly="" type="text" value="Mark Cruz"/>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Email Address</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" readonly="" type="email" value="mark.cruz@sanpark.io"/>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Mobile Number</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" readonly="" type="text" value="+63 917 555 0192"/>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Default City / Region</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" readonly="" type="text" value="Metro Manila, Philippines"/>
+</div>
+</div>
+</div>
+<!-- Security Settings Card -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md flex flex-col justify-between">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs pb-space-xs border-b border-surface-container-high">
+<span class="material-symbols-outlined text-primary-fixed-dim">security</span>
+<span>Security &amp; Access</span>
+</h2>
+<div class="space-y-space-md mt-space-md">
+<div class="flex items-center justify-between">
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Biometric Login</div>
+<div class="text-body-sm text-secondary">FaceID / Fingerprint for quick pay</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Two-Factor Auth</div>
+<div class="text-body-sm text-secondary">SMS code on high-value bookings</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<button class="w-full mt-space-md bg-surface-container-high hover:bg-surface-container-lowest text-on-surface py-space-xs rounded-lg text-label-lg font-label-lg transition-all">
+            Change Account Password
+          </button>
+</div>
+</div>
+<!-- Notification Preferences -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md">
+<h2 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs pb-space-xs border-b border-surface-container-high">
+<span class="material-symbols-outlined text-primary-fixed-dim">notifications_active</span>
+<span>Notification &amp; Alert Preferences</span>
+</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg">
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Parking Expiry Push</div>
+<div class="text-body-sm text-secondary mt-1">Get warned 15 mins before your session expires.</div>
+</div>
+<input checked="" class="accent-[#E50914] w-5 h-5 mt-1 cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg">
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Promo &amp; Rewards Alerts</div>
+<div class="text-body-sm text-secondary mt-1">Receive alerts on double loyalty point weekends.</div>
+</div>
+<input checked="" class="accent-[#E50914] w-5 h-5 mt-1 cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg">
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">SMS Receipts</div>
+<div class="text-body-sm text-secondary mt-1">Instant billing summaries sent via SMS.</div>
+</div>
+<input class="accent-[#E50914] w-5 h-5 mt-1 cursor-pointer" type="checkbox"/>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB 2: SAVED VEHICLES -->
+<div class="tab-content hidden space-y-space-lg" id="tab-vehicles">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Registered Vehicles</h2>
+<p class="text-body-md text-secondary">Manage license plates associated with your automatic barrier recognition.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-label-lg hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs" onclick="openVehicleModal()">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Add New Vehicle</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Vehicle Card 1 (Active) -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md relative overflow-hidden flex flex-col justify-between border-l-4 border-primary-container">
+<div class="absolute top-4 right-4 bg-primary-container/20 text-primary-fixed-dim px-2.5 py-1 rounded-full text-label-sm font-label-sm">
+            Default Active
+          </div>
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center text-primary-fixed-dim justify-center mb-space-md">
+<span class="material-symbols-outlined text-[24px]">directions_car</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Toyota Vios</h3>
+<p class="text-body-sm text-secondary mt-0.5">Sedan • Silver Metallic</p>
+<div class="mt-space-md inline-block bg-surface-container-lowest px-3 py-1.5 rounded text-label-lg font-label-lg text-on-surface tracking-wider font-mono">
+              NCR • NUI-8821
+            </div>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-secondary">RFID Linked</span>
+<button class="text-primary-fixed-dim hover:underline">Configure</button>
+</div>
+</div>
+<!-- Vehicle Card 2 -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md relative overflow-hidden flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center text-secondary justify-center mb-space-md">
+<span class="material-symbols-outlined text-[24px]">directions_car</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Honda Civic RS</h3>
+<p class="text-body-sm text-secondary mt-0.5">Sedan • Championship White</p>
+<div class="mt-space-md inline-block bg-surface-container-lowest px-3 py-1.5 rounded text-label-lg font-label-lg text-on-surface tracking-wider font-mono">
+              CALABARZON • S7-K992
+            </div>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-secondary">Standard Plate</span>
+<button class="text-primary-fixed-dim hover:underline">Set as Default</button>
+</div>
+</div>
+<!-- Vehicle Card 3 (EV) -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md relative overflow-hidden flex flex-col justify-between">
+<div class="absolute top-4 right-4 bg-tertiary-container/20 text-tertiary-fixed-dim px-2.5 py-1 rounded-full text-label-sm font-label-sm flex items-center space-x-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span>EV Compatible</span>
+</div>
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center text-tertiary-fixed-dim justify-center mb-space-md">
+<span class="material-symbols-outlined text-[24px]">ev_station</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Tesla Model 3</h3>
+<p class="text-body-sm text-secondary mt-0.5">Electric • Solid Black</p>
+<div class="mt-space-md inline-block bg-surface-container-lowest px-3 py-1.5 rounded text-label-lg font-label-lg text-on-surface tracking-wider font-mono">
+              EV • 3881-TM
+            </div>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-secondary">Type 2 / CCS2</span>
+<button class="text-primary-fixed-dim hover:underline">Set as Default</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB 3: PAYMENT METHODS -->
+<div class="tab-content hidden space-y-space-lg" id="tab-payments">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Payment Methods</h2>
+<p class="text-body-md text-secondary">Linked e-wallets and credit cards for frictionless automated exit.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-label-lg hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs" onclick="openPaymentModal()">
+<span class="material-symbols-outlined text-[18px]">add_card</span>
+<span>Add Payment Method</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- GCash -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md flex flex-col justify-between border-l-4 border-blue-500">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-12 h-12 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold">G</div>
+<span class="bg-surface-container-high text-primary-fixed-dim px-2.5 py-1 rounded-full text-label-sm">Primary</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">GCash Wallet</h3>
+<p class="text-body-sm text-secondary mt-0.5">+63 917 ••• 0192</p>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-emerald-400 flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Connected</span>
+</span>
+<button class="text-secondary hover:text-on-surface">Manage</button>
+</div>
+</div>
+<!-- Maya -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-12 h-12 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">M</div>
+<span class="bg-surface-container-high text-secondary px-2.5 py-1 rounded-full text-label-sm">Backup</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Maya Wallet</h3>
+<p class="text-body-sm text-secondary mt-0.5">+63 917 ••• 0192</p>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-emerald-400 flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Connected</span>
+</span>
+<button class="text-primary-fixed-dim hover:underline">Set as Primary</button>
+</div>
+</div>
+<!-- Visa Credit Card -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">credit_card</span>
+</div>
+<span class="bg-surface-container-high text-secondary px-2.5 py-1 rounded-full text-label-sm">Credit</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Visa •••• 4092</h3>
+<p class="text-body-sm text-secondary mt-0.5">Exp: 08/26 • BPI Platinum</p>
+</div>
+<div class="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
+<span class="text-emerald-400 flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Active</span>
+</span>
+<button class="text-primary-fixed-dim hover:underline">Set as Primary</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB 4: STATISTICS & HISTORY -->
+<div class="tab-content hidden space-y-space-lg" id="tab-stats">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Parking Analytics &amp; History</h2>
+<p class="text-body-md text-secondary">Summary of your urban parking patterns this calendar month.</p>
+</div>
+<div class="bg-surface-container px-space-md py-space-xs rounded-lg text-label-md text-secondary flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>October 2024</span>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md">
+<div class="text-body-sm text-secondary">Total Hours Parked</div>
+<div class="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2">
+<span>42.5</span>
+<span class="text-body-md text-primary-fixed-dim">hours</span>
+</div>
+<div class="text-body-sm text-emerald-400 mt-2 flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+12% vs last month</span>
+</div>
+</div>
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md">
+<div class="text-body-sm text-secondary">Total Parking Sessions</div>
+<div class="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2">
+<span>18</span>
+<span class="text-body-md text-primary-fixed-dim">visits</span>
+</div>
+<div class="text-body-sm text-secondary mt-2">Avg. duration: 2.3 hours</div>
+</div>
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md">
+<div class="text-body-sm text-secondary">Total Spend Saved</div>
+<div class="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2">
+<span>₱1,420</span>
+<span class="text-body-md text-primary-fixed-dim">via Elite Perks</span>
+</div>
+<div class="text-body-sm text-primary-fixed-dim mt-2">Free weekend vouchers applied</div>
+</div>
+</div>
+<!-- Favorite Malls & Recent Logs -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<div class="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">favorite</span>
+<span>Favorite Malls Visited</span>
+</h3>
+<div class="space-y-space-md">
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center space-x-space-sm">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center font-bold text-primary-fixed-dim">SM</div>
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">SM Megamall</div>
+<div class="text-body-sm text-secondary">Ortaigas Center • 12 visits</div>
+</div>
+</div>
+<span class="text-label-md text-primary-fixed-dim">68%</span>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center space-x-space-sm">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center font-bold text-primary-fixed-dim">AM</div>
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Ayala Malls Manila Bay</div>
+<div class="text-body-sm text-secondary">Parañaque • 6 visits</div>
+</div>
+</div>
+<span class="text-label-md text-primary-fixed-dim">32%</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2 bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">history</span>
+<span>Recent Parking Sessions</span>
+</h3>
+<button class="text-label-md text-primary-fixed-dim hover:underline">View All History</button>
+</div>
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center space-x-space-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">local_parking</span>
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">SM Megamall - Mega Fashion Hall Basement 2</div>
+<div class="text-body-sm text-secondary">Oct 24, 2024 • 2 hours 15 mins • Toyota Vios (NUI-8821)</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg text-on-surface">₱150.00</div>
+<div class="text-body-sm text-emerald-400">Paid via GCash</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center space-x-space-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">local_parking</span>
+<div>
+<div class="text-label-lg font-label-lg text-on-surface">Ayala Malls Manila Bay - Parkade Level 3</div>
+<div class="text-body-sm text-secondary">Oct 21, 2024 • 1 hour 45 mins • Toyota Vios (NUI-8821)</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg text-on-surface">₱120.00</div>
+<div class="text-body-sm text-emerald-400">Paid via Visa 4092</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Backdrop & Add Vehicle Modal (hidden by default) -->
+<div class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4" id="vehicle-modal">
+<div class="bg-surface-container max-w-md w-full p-space-lg rounded-xl shadow-2xl space-y-space-md relative animate-in fade-in zoom-in-95 duration-200">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">directions_car</span>
+<span>Add New Vehicle</span>
+</h3>
+<button class="text-secondary hover:text-on-surface" onclick="closeVehicleModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-space-md">
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Vehicle Model / Make</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" placeholder="e.g. Mazda 3 Speed" type="text"/>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">License Plate Number</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" placeholder="e.g. ABC-1234" type="text"/>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Vehicle Type</label>
+<select class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container">
+<option>Sedan / Hatchback</option>
+<option>SUV / Crossover</option>
+<option>Electric Vehicle (EV)</option>
+<option>Motorcycle</option>
+</select>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-space-sm pt-space-sm">
+<button class="bg-surface-container-high text-on-surface px-space-md py-space-xs rounded-lg text-label-lg font-label-lg" onclick="closeVehicleModal()">Cancel</button>
+<button class="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-label-lg hover:brightness-110" onclick="alert('Vehicle added successfully!'); closeVehicleModal();">Save Vehicle</button>
+</div>
+</div>
+</div>
+<!-- Modal Payment Modal (hidden by default) -->
+<div class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4" id="payment-modal">
+<div class="bg-surface-container max-w-md w-full p-space-lg rounded-xl shadow-2xl space-y-space-md relative">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">credit_card</span>
+<span>Link New Payment Method</span>
+</h3>
+<button class="text-secondary hover:text-on-surface" onclick="closePaymentModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-space-md">
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Payment Type</label>
+<select class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container">
+<option>Credit / Debit Card (Visa/Mastercard)</option>
+<option>GCash Wallet Link</option>
+<option>Maya Wallet Link</option>
+<option>ShopeePay</option>
+</select>
+</div>
+<div>
+<label class="text-label-md text-secondary block mb-space-3xs">Account / Card Number</label>
+<input class="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none focus:ring-1 focus:ring-primary-container" placeholder="0000 0000 0000 0000" type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-end space-x-space-sm pt-space-sm">
+<button class="bg-surface-container-high text-on-surface px-space-md py-space-xs rounded-lg text-label-lg font-label-lg" onclick="closePaymentModal()">Cancel</button>
+<button class="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-label-lg hover:brightness-110" onclick="alert('Payment method successfully linked!'); closePaymentModal();">Link Account</button>
+</div>
+</div>
+</div>
+<script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-primary-container', 'text-on-surface');
+        btn.classList.add('border-transparent', 'text-secondary');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      activeBtn.classList.add('border-primary-container', 'text-on-surface');
+      activeBtn.classList.remove('border-transparent', 'text-secondary');
+    }
+
+    function openVehicleModal() {
+      document.getElementById('vehicle-modal').classList.remove('hidden');
+      document.getElementById('vehicle-modal').classList.add('flex');
+    }
+    function closeVehicleModal() {
+      document.getElementById('vehicle-modal').classList.add('hidden');
+      document.getElementById('vehicle-modal').classList.remove('flex');
+    }
+
+    function openPaymentModal() {
+      document.getElementById('payment-modal').classList.remove('hidden');
+      document.getElementById('payment-modal').classList.add('flex');
+    }
+    function closePaymentModal() {
+      document.getElementById('payment-modal').classList.add('hidden');
+      document.getElementById('payment-modal').classList.remove('flex');
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low py-space-lg"><div class="w-full px-container-margin md:px-space-xl flex flex-col md:flex-row items-center justify-between text-body-sm text-on-surface-variant"><span>© 2024 SanPark Smart Parking Platform. All rights reserved.</span><div class="flex space-x-space-md mt-space-2xs md:mt-0"><a class="hover:text-on-surface" href="#">Privacy Policy</a><a class="hover:text-on-surface" href="#">Terms of Service</a><a class="hover:text-on-surface" href="#">Support</a></div></div></footer></body></html>

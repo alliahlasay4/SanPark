@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {"darkMode": "class", "theme": {"extend": {"colors": {"on-secondary-fixed": "#1b1b1c", "surface-container-low": "#1c1b1b", "secondary": "#c8c6c5", "on-tertiary-container": "#f8f9ff", "secondary-container": "#474746", "error-container": "#93000a", "on-tertiary-fixed": "#001b3c", "primary": "#ffb4aa", "surface-container-high": "#2a2a2a", "inverse-primary": "#c0000c", "on-secondary-fixed-variant": "#474746", "primary-fixed": "#ffdad5", "on-primary": "#690003", "inverse-surface": "#e5e2e1", "on-secondary-container": "#b7b5b4", "on-surface-variant": "#e9bcb6", "on-secondary": "#303030", "surface-container-lowest": "#0e0e0e", "primary-fixed-dim": "#ffb4aa", "on-background": "#e5e2e1", "secondary-fixed-dim": "#c8c6c5", "surface-tint": "#ffb4aa", "on-primary-fixed-variant": "#930007", "on-tertiary-fixed-variant": "#004689", "outline": "#af8782", "on-primary-fixed": "#410001", "on-tertiary": "#003061", "tertiary-fixed": "#d5e3ff", "on-error-container": "#ffdad6", "surface-variant": "#353534", "outline-variant": "#5e3f3b", "surface-container-highest": "#353534", "surface": "#131313", "tertiary-fixed-dim": "#a7c8ff", "inverse-on-surface": "#313030", "surface-container": "#201f1f", "primary-container": "#e50914", "tertiary-container": "#0072d7", "surface-bright": "#393939", "background": "#131313", "secondary-fixed": "#e5e2e1", "tertiary": "#a7c8ff", "on-error": "#690005", "on-surface": "#e5e2e1", "error": "#ffb4ab"}, "borderRadius": {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"}, "spacing": {"container-margin": "1rem", "space-sm": "1rem", "grid-gutter": "1rem", "space-xl": "3rem", "space-xs": "0.75rem", "space-md": "1.5rem", "space-lg": "2rem", "space-2xs": "0.5rem", "space-3xs": "0.25rem"}, "fontFamily": {"body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "label-lg": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "body-lg": ["Inter"]}, "fontSize": {"body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}], "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "500"}], "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600"}], "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}], "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}], "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}], "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}], "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]}}}};</script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-container-margin md:px-space-xl flex items-center justify-between"><div class="flex items-center space-x-space-sm"><img alt="Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4C8hFEwX2EhMyv493LYvOK55yK9lF7Z1loCqWpS5SRBcl5prMkCNthe0oxmAJw7-8OENvdRBEEQgBU0t3UHwVG7Bh0CuLnOop47e6DdESu-dt3NIlotkH66xZO0Z_X5kXRMFm_7QAB7Lrwgs28ltnhnzf3SLCfS0KVEn5Yh3W4owGf2kh1pKM_HW8DlUfP6SjDKiTocUdLjFDYh4BViSsIvWItZ9zjqXGnlHDzPeVOJBVx2y-RaYH"/><span class="text-headline-sm font-headline-sm tracking-tight text-on-surface">SanPark</span></div><nav class="hidden lg:flex items-center space-x-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="find-parking" href="#">Find Parking</a><a aria-current="page" class="transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="my-bookings" href="#">My Bookings</a><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="mall-manager-portal" href="#">Mall Manager Portal</a></nav><div class="flex items-center space-x-space-sm"><div class="hidden sm:flex items-center bg-surface-container-high px-space-2xs py-space-3xs rounded-lg text-label-md text-secondary"><span class="material-symbols-outlined text-[16px] mr-1">directions_car</span><span>Toyota Vios (PHP)</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Navigation & Header Section -->
+<div class="w-full px-container-margin md:px-space-xl pt-space-lg pb-space-md flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center space-x-space-3xs mb-space-3xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">confirmation_number</span>
+<span class="text-label-md uppercase tracking-wider">SanPark Access Control</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface">My Bookings &amp; Digital Pass</h1>
+</div>
+<div class="flex items-center space-x-space-xs">
+<button class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface text-label-md font-label-md flex items-center space-x-space-2xs hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>History Export</span>
+</button>
+<button class="px-space-sm py-space-xs rounded-lg bg-primary-container text-on-primary-container text-label-md font-label-md flex items-center space-x-space-2xs shadow-[0_0_15px_rgba(229,9,20,0.3)] hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Reservation</span>
+</button>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="w-full px-container-margin md:px-space-xl pb-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Column: Active & Pending Passes (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-lg">
+<!-- Pending Reservation with Countdown Timer -->
+<div class="w-full bg-surface-container rounded-xl p-space-md relative overflow-hidden shadow-lg">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md border-b border-surface-container-high gap-space-xs">
+<div class="flex items-center space-x-space-xs">
+<span class="flex h-3 w-3 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary-container"></span>
+</span>
+<span class="text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Pending Confirmation</span>
+</div>
+<div class="flex items-center space-x-space-2xs bg-surface-container-high px-space-xs py-space-3xs rounded-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">timer</span>
+<span class="text-label-md text-on-surface font-mono font-bold" id="countdown-timer">09:45</span>
+<span class="text-body-sm text-on-surface-variant">hold remaining</span>
+</div>
+</div>
+<div class="py-space-md flex flex-col md:flex-row gap-space-md items-start">
+<div class="w-full md:w-32 h-32 rounded-lg bg-cover bg-center shrink-0" data-alt="Underground luxury parking bay with smart LED indicators, polished concrete floor, and modern neon ambient lighting in a high-end commercial mall in Manila." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8t2MnBlzjEzlEV8-z6E1NwXPylOqKYpiU3o-XOSpnyiirF5n_aBnVoSVTuMat7Trl76_Q4oBHMhRcb2wdjqieqtLbY0HgdvFDAdcHGNkNin4kpVFkRpG8IpPTL32UpuLCBX7XrjI8sBJqOWWkZruFdHSdy4aarxKWKEVBfF92YZiKll7rtpyaU5Bbwls-VcGA6uSNP8t1T_Gt42SQhbRqXGCjnZt4AgH-w10K8Y5wabNdZkygvW_j')"></div>
+<div class="flex flex-col flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Shangri-La The Fort Mall</h3>
+<p class="text-body-sm text-on-surface-variant">BGC, Taguig City • Level B2, Slot #142</p>
+</div>
+<span class="text-headline-sm font-headline-sm text-primary">₱450.00</span>
+</div>
+<div class="mt-space-sm flex flex-wrap gap-space-2xs">
+<span class="bg-surface-container-high text-secondary px-space-2xs py-space-3xs rounded text-label-md">Standard Pass</span>
+<span class="bg-surface-container-high text-secondary px-space-2xs py-space-3xs rounded text-label-md">Toyota Vios (PHP-8821)</span>
+</div>
+</div>
+</div>
+<!-- Interactive Add-ons Panel -->
+<div class="bg-surface-container-low rounded-lg p-space-sm mb-space-md">
+<h4 class="text-headline-sm font-headline-sm text-on-surface mb-space-xs">Enhance Your Booking</h4>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+<label class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container border border-surface-container-high cursor-pointer hover:border-outline transition-colors">
+<div class="flex items-center space-x-space-2xs">
+<input class="w-4 h-4 rounded accent-primary-container bg-surface" id="addon-ev" onchange="updateTotal()" type="checkbox"/>
+<span class="text-body-sm text-on-surface">EV Fast Charge</span>
+</div>
+<span class="text-body-sm text-primary font-semibold">+₱150</span>
+</label>
+<label class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container border border-surface-container-high cursor-pointer hover:border-outline transition-colors">
+<div class="flex items-center space-x-space-2xs">
+<input class="w-4 h-4 rounded accent-primary-container bg-surface" id="addon-express" onchange="updateTotal()" type="checkbox"/>
+<span class="text-body-sm text-on-surface">Express Pass</span>
+</div>
+<span class="text-body-sm text-primary font-semibold">+₱50</span>
+</label>
+<label class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container border border-surface-container-high cursor-pointer hover:border-outline transition-colors">
+<div class="flex items-center space-x-space-2xs">
+<input class="w-4 h-4 rounded accent-primary-container bg-surface" id="addon-wash" onchange="updateTotal()" type="checkbox"/>
+<span class="text-body-sm text-on-surface">Car Wash</span>
+</div>
+<span class="text-body-sm text-primary font-semibold">+₱300</span>
+</label>
+</div>
+</div>
+<!-- Payment Method Toggles -->
+<div class="mb-space-md">
+<h4 class="text-headline-sm font-headline-sm text-on-surface mb-space-xs">Select Payment Method</h4>
+<div class="grid grid-cols-3 gap-space-2xs">
+<button class="flex flex-col items-center justify-center p-space-xs rounded-lg bg-primary-container text-on-primary-container font-semibold transition-all" id="pay-gcash" onclick="setPayment('gcash')">
+<span class="material-symbols-outlined text-[20px] mb-1">account_balance_wallet</span>
+<span class="text-label-md">GCash</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-xs rounded-lg bg-surface-container-high text-on-surface font-semibold transition-all hover:bg-surface-bright" id="pay-maya" onclick="setPayment('maya')">
+<span class="material-symbols-outlined text-[20px] mb-1">payments</span>
+<span class="text-label-md">Maya</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-xs rounded-lg bg-surface-container-high text-on-surface font-semibold transition-all hover:bg-surface-bright" id="pay-card" onclick="setPayment('card')">
+<span class="material-symbols-outlined text-[20px] mb-1">credit_card</span>
+<span class="text-label-md">Card</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm border-t border-surface-container-high">
+<div>
+<span class="text-body-sm text-on-surface-variant block">Total Due (Inc. Add-ons)</span>
+<span class="text-headline-lg font-headline-lg text-on-surface" id="total-display">₱450.00</span>
+</div>
+<button class="px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container text-label-lg font-label-lg hover:opacity-90 shadow-[0_0_20px_rgba(229,9,20,0.4)] transition-all">
+            Confirm &amp; Pay Now
+          </button>
+</div>
+</div>
+<!-- Past & Completed Reservations -->
+<div class="w-full bg-surface-container rounded-xl p-space-md">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-space-md">Recent History</h3>
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low">
+<div class="flex items-center space-x-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">local_parking</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface">Greenbelt 5 Parking</h4>
+<p class="text-body-sm text-on-surface-variant">Oct 24, 2024 • 3h 15m</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-headline-sm font-headline-sm text-on-surface block">₱180.00</span>
+<span class="text-label-sm text-secondary uppercase">Completed</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low">
+<div class="flex items-center space-x-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">local_parking</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface">SM Megamall Mega A</h4>
+<p class="text-body-sm text-on-surface-variant">Oct 19, 2024 • 2h 00m</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-headline-sm font-headline-sm text-on-surface block">₱120.00</span>
+<span class="text-label-sm text-secondary uppercase">Completed</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: High-Contrast Digital Pass Card (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col">
+<div class="sticky top-20 bg-surface-container rounded-2xl p-space-lg shadow-2xl relative overflow-hidden">
+<!-- Glow effects -->
+<div class="absolute -top-10 -right-10 w-48 h-48 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between pb-space-md border-b border-surface-container-high mb-space-md">
+<div class="flex items-center space-x-space-2xs">
+<span class="material-symbols-outlined text-primary-container text-[24px]" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+<span class="text-headline-sm font-headline-sm text-on-surface tracking-tight">Active Digital Pass</span>
+</div>
+<span class="bg-primary-container/20 text-primary px-space-xs py-space-3xs rounded-full text-label-sm font-bold uppercase tracking-wider">Ready to Scan</span>
+</div>
+<!-- Pass Header Info -->
+<div class="text-center mb-space-md">
+<span class="text-body-sm text-on-surface-variant uppercase tracking-widest block mb-1">Booking Reference #</span>
+<span class="text-headline-lg font-mono font-bold text-on-surface tracking-wider bg-surface-container-high px-space-sm py-space-3xs rounded-lg inline-block">SP-9482-BGC</span>
+</div>
+<!-- QR Code & Barcode Visual Box -->
+<div class="bg-surface p-space-md rounded-xl flex flex-col items-center justify-center mb-space-md shadow-inner">
+<div class="w-48 h-48 bg-white p-space-2xs rounded-lg flex items-center justify-center mb-space-sm">
+<span class="material-symbols-outlined text-[160px] text-surface">qr_code_2</span>
+</div>
+<div class="w-full flex flex-col items-center">
+<div class="font-mono tracking-widest text-on-surface text-headline-sm">||| | |||| ||| || ||| |||||</div>
+<span class="text-body-sm text-on-surface-variant mt-1">Scan at entry barrier boom</span>
+</div>
+</div>
+<!-- Parking Details Grid -->
+<div class="grid grid-cols-2 gap-space-xs mb-space-md">
+<div class="bg-surface-container-low p-space-xs rounded-lg">
+<span class="text-body-sm text-on-surface-variant block">Mall Location</span>
+<span class="text-label-lg font-label-lg text-on-surface">Uptown Mall BGC</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded-lg">
+<span class="text-body-sm text-on-surface-variant block">Assigned Slot</span>
+<span class="text-label-lg font-label-lg text-on-surface font-mono">P3-A12 (VIP)</span>
+</div>
+</div>
+<!-- Wallet Integration Buttons -->
+<div class="grid grid-cols-2 gap-space-xs mb-space-md">
+<button class="flex items-center justify-center space-x-space-2xs bg-surface-container-high hover:bg-surface-bright text-on-surface py-space-xs px-space-xs rounded-lg transition-colors text-label-md">
+<span class="material-symbols-outlined text-[18px]">wallet</span>
+<span>Apple Wallet</span>
+</button>
+<button class="flex items-center justify-center space-x-space-2xs bg-surface-container-high hover:bg-surface-bright text-on-surface py-space-xs px-space-xs rounded-lg transition-colors text-label-md">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span>Google Wallet</span>
+</button>
+</div>
+<!-- Deep Links for Navigation -->
+<div class="grid grid-cols-2 gap-space-xs">
+<a class="flex items-center justify-center space-x-space-2xs bg-primary-container text-on-primary-container py-space-xs px-space-xs rounded-lg hover:opacity-90 transition-opacity text-label-md font-semibold" href="#">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>Navigate Waze</span>
+</a>
+<a class="flex items-center justify-center space-x-space-2xs bg-surface-container-high text-on-surface py-space-xs px-space-xs rounded-lg hover:bg-surface-bright transition-colors text-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span>Google Maps</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let basePrice = 450;
+  function updateTotal() {
+    let ev = document.getElementById('addon-ev').checked ? 150 : 0;
+    let express = document.getElementById('addon-express').checked ? 50 : 0;
+    let wash = document.getElementById('addon-wash').checked ? 300 : 0;
+    let total = basePrice + ev + express + wash;
+    document.getElementById('total-display').innerText = '₱' + total.toFixed(2);
+  }
+
+  function setPayment(method) {
+    ['gcash', 'maya', 'card'].forEach(m => {
+      let btn = document.getElementById('pay-' + m);
+      if(m === method) {
+        btn.className = "flex flex-col items-center justify-center p-space-xs rounded-lg bg-primary-container text-on-primary-container font-semibold transition-all shadow-md";
+      } else {
+        btn.className = "flex flex-col items-center justify-center p-space-xs rounded-lg bg-surface-container-high text-on-surface font-semibold transition-all hover:bg-surface-bright";
+      }
+    });
+  }
+
+  // Simple countdown demo timer
+  let duration = 9 * 60 + 45;
+  setInterval(() => {
+    if (duration > 0) {
+      duration--;
+      let m = Math.floor(duration / 60);
+      let s = duration % 60;
+      document.getElementById('countdown-timer').innerText = 
+        String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+  }, 1000);
+</script></main><footer class="w-full bg-surface-container-low py-space-lg"><div class="w-full px-container-margin md:px-space-xl flex flex-col md:flex-row items-center justify-between text-body-sm text-on-surface-variant"><span>© 2024 SanPark Smart Parking Platform. All rights reserved.</span><div class="flex space-x-space-md mt-space-2xs md:mt-0"><a class="hover:text-on-surface" href="#">Privacy Policy</a><a class="hover:text-on-surface" href="#">Terms of Service</a><a class="hover:text-on-surface" href="#">Support</a></div></div></footer></body></html>
