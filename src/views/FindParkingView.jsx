@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext';
 export default function FindParkingView() {
   const { hubs, openFloorPlan, vehicles, selectedVehicle, setDefaultVehicle, surgePricingActive } = useApp();
   const [filter, setFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('BGC & Metro Manila Area');
+  const [searchQuery, setSearchQuery] = useState('');
   const [liveCount, setLiveCount] = useState(1482);
   const [highlightedHubId, setHighlightedHubId] = useState(null);
 
@@ -17,12 +17,13 @@ export default function FindParkingView() {
   }, []);
 
   const filteredHubs = hubs.filter(hub => {
-    if (filter === 'all') return true;
-    return hub.amenities.includes(filter);
-  }).filter(hub => {
+    if (filter !== 'all' && !hub.amenities.includes(filter)) return false;
     if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
-    return hub.name.toLowerCase().includes(query) || hub.address.toLowerCase().includes(query);
+    const tokens = searchQuery.toLowerCase().split(/[\s,&]+/).filter(Boolean);
+    return tokens.some(t => 
+      hub.name.toLowerCase().includes(t) || 
+      hub.address.toLowerCase().includes(t)
+    );
   });
 
   return (
@@ -83,7 +84,7 @@ export default function FindParkingView() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search destination..."
+                  placeholder="Search destination (e.g. BGC, Megamall, Manila Bay)..."
                   className="bg-transparent text-on-surface font-headline-sm focus:outline-none w-full text-base"
                 />
               </div>
