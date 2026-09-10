@@ -52,6 +52,40 @@ SanPark is organized into dedicated, accessible pages with URL routes:
 
 ---
 
+## 🖥️ Screenshots & Screen Recording
+
+> A full walkthrough recorded automatically by the Puppeteer E2E test suite.
+
+### 🎬 Full Walkthrough (Animated)
+
+![SanPark Screen Recording](docs/screenshots/sanpark_screen_recording.gif)
+
+---
+
+### 📸 Page Screenshots
+
+| Find Parking | Floor Plan Modal |
+|:---:|:---:|
+| ![Find Parking](docs/screenshots/01_find_parking_page.png) | ![Floor Plan Modal](docs/screenshots/02_floorplan_modal.png) |
+
+| My Bookings | My Bookings — Add-ons & Maya Payment |
+|:---:|:---:|
+| ![My Bookings](docs/screenshots/03_my_bookings_page.png) | ![Add-ons & Maya](docs/screenshots/04_my_bookings_addons_maya.png) |
+
+| Mall Manager Portal | Mall Manager — Filtered Sessions |
+|:---:|:---:|
+| ![Mall Manager](docs/screenshots/05_mall_manager_page.png) | ![Filtered Sessions](docs/screenshots/06_mall_manager_filtered.png) |
+
+| System Analytics | User Profile |
+|:---:|:---:|
+| ![System Analytics](docs/screenshots/07_system_analytics_page.png) | ![User Profile](docs/screenshots/08_user_profile_page.png) |
+
+| Saved Vehicles | Payment Methods | Parking Stats |
+|:---:|:---:|:---:|
+| ![Saved Vehicles](docs/screenshots/09_saved_vehicles_tab.png) | ![Payment Methods](docs/screenshots/10_payment_methods_tab.png) | ![Parking Stats](docs/screenshots/11_parking_stats_tab.png) |
+
+---
+
 ## 🎨 Design System: "Obsidian Parking"
 
 SanPark adheres strictly to the **Obsidian Parking** design specifications:
@@ -178,20 +212,22 @@ node test-e2e.js
 
 The script automatically generates and saves the following artifacts:
 
-| File | Description |
-|:-----|:------------|
-| `01_find_parking_page.png` | Find Parking home view |
-| `02_floorplan_modal.png` | Floor plan bay selector modal |
-| `03_my_bookings_page.png` | My Bookings active pass view |
-| `04_my_bookings_addons_maya.png` | Add-ons selected + Maya payment |
-| `05_mall_manager_page.png` | Mall Manager overview |
-| `06_mall_manager_filtered.png` | Live sessions filtered by "Civic" |
-| `07_system_analytics_page.png` | System Analytics dashboard |
-| `08_user_profile_page.png` | User Profile general tab |
-| `09_saved_vehicles_tab.png` | Saved Vehicles tab |
-| `10_payment_methods_tab.png` | Payment Methods tab |
-| `11_parking_stats_tab.png` | Parking Stats & History tab |
-| `sanpark_screen_recording.gif` | Full animated screen recording walkthrough |
+| File | Preview |
+|:-----|:--------|
+| [`01_find_parking_page.png`](docs/screenshots/01_find_parking_page.png) | Find Parking home view |
+| [`02_floorplan_modal.png`](docs/screenshots/02_floorplan_modal.png) | Floor plan bay selector modal |
+| [`03_my_bookings_page.png`](docs/screenshots/03_my_bookings_page.png) | My Bookings active pass view |
+| [`04_my_bookings_addons_maya.png`](docs/screenshots/04_my_bookings_addons_maya.png) | Add-ons selected + Maya payment |
+| [`05_mall_manager_page.png`](docs/screenshots/05_mall_manager_page.png) | Mall Manager overview |
+| [`06_mall_manager_filtered.png`](docs/screenshots/06_mall_manager_filtered.png) | Live sessions filtered by "Civic" |
+| [`07_system_analytics_page.png`](docs/screenshots/07_system_analytics_page.png) | System Analytics dashboard |
+| [`08_user_profile_page.png`](docs/screenshots/08_user_profile_page.png) | User Profile general tab |
+| [`09_saved_vehicles_tab.png`](docs/screenshots/09_saved_vehicles_tab.png) | Saved Vehicles tab |
+| [`10_payment_methods_tab.png`](docs/screenshots/10_payment_methods_tab.png) | Payment Methods tab |
+| [`11_parking_stats_tab.png`](docs/screenshots/11_parking_stats_tab.png) | Parking Stats & History tab |
+| [`sanpark_screen_recording.gif`](docs/screenshots/sanpark_screen_recording.gif) | Full animated screen recording walkthrough |
+
+> All screenshots and the recording are stored in [`docs/screenshots/`](docs/screenshots/) and viewable directly on this GitHub page.
 
 ---
 
