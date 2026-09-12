@@ -16,6 +16,7 @@ export default function FloorPlanModal() {
     bookSlot,
     surgePricingActive,
     userRole,
+    currentUser,
     showToast,
   } = useApp();
   const [customerDetails, setCustomerDetails] = useState({ name: '', email: '', plate: '' });
@@ -27,11 +28,20 @@ export default function FloorPlanModal() {
 
   const handleProceedCheckout = () => {
     if (!selectedSlot) return;
+
+    // Unauthenticated visitors route directly to login in the Login toggle
+    if (!currentUser || userRole === 'guest') {
+      closeFloorPlan();
+      navigate('/login', { state: { tab: 'login', from: '/my-bookings' } });
+      return;
+    }
+
     if (userRole === 'admin' && Object.values(customerDetails).some(value => !value.trim())) {
       showToast('Enter the customer name, email, and vehicle plate first');
       return;
     }
     bookSlot(selectedHub, selectedSlot, userRole === 'admin' ? customerDetails : null);
+    closeFloorPlan();
     navigate(userRole === 'admin' ? '/customer-reservations' : '/my-bookings');
   };
 

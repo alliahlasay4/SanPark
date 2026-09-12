@@ -12,9 +12,16 @@
 
 ## ✨ Features & Multi-Page Architecture
 
-SanPark is organized into dedicated, accessible pages with URL routes:
+### 1. 🚀 Modern Landing Page (`/`)
+- **Live Manila Metro Telemetry**: Dynamic network status and real-time telemetry badge.
+- **Interactive Quick-Search Reservation Widget**: Destination query, date & time window, vehicle type selector with instant node scanning and direct slot locking.
+- **Trust Metric Ribbon**: 145,000+ drivers, 99.98% ANPR gate reliability, <2.4s avg entry.
+- **3-Step Frictionless Flow**: Search & Reserve, Arrive & Auto-Enter, Tap-Out & Pay with SanWallet/GCash.
+- **Core Capabilities Bento**: Guaranteed stalls, integrated 60kW DC EV fast charging, optical ANPR FastPass, and transparent rates.
+- **Popular Hubs with Live Occupancy**: Real-time meters for SM Megamall Mega B, BGC High Street Parkade, and Ayala Malls Manila Bay with direct booking triggers.
+- **Inquiry & Partner Desk**: Live contact form with ticket confirmation generator and direct support contacts.
 
-### 1. 🗺️ Find Parking & Interactive Map (`/`)
+### 2. 🗺️ Find Parking & Interactive Map (`/find-parking`)
 - **Live Amenity Filters**: Filter by *EV Fast Charging*, *Covered Parking*, *24/7 CCTV*, or *All Spots*.
 - **Live Network Ticker**: Real-time counter of available parking spaces across Metro Manila.
 - **Search & Filter Panel**: Filter by destination, registered vehicle, and scheduled time range.
@@ -49,6 +56,13 @@ SanPark is organized into dedicated, accessible pages with URL routes:
 - **Saved Vehicles**: Register and manage vehicles with ANPR plate recognition and RFID tags (**Add Vehicle** modal included).
 - **Payment Methods**: Manage linked e-wallets (GCash, Maya) and credit cards with primary payment designation.
 - **Parking History & Analytics**: Monthly parking hours, total visits, and money saved via Elite perks.
+
+### 6. 🔐 Obsidian Authentication Suite (`/login`)
+- **Seamless Segmented Switching**: Instant toggle between **Log In** and **Create Account** tabs with animated top progress accent bar.
+- **1-Click Demo Profiles**: Instant credentials fill for *Driver Demo* (`user@sanpark.ph`) and *Admin Demo* (`admin@sanpark.ph`).
+- **Interactive Security & Strength Meter**: Dynamic 3-level password strength meter, password visibility toggles, and matching confirmation validation.
+- **Dedicated Email Verification Workflow**: Pulse-animated status icon, destination email pill with modal update dialog, 45s resend cooldown timer, and direct simulated confirmation.
+- **Forgot Password Modal**: Floating recovery dialog with live email validation and instant dispatch toast.
 
 ---
 

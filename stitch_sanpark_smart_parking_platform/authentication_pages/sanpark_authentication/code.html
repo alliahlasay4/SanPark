@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>SanPark Authentication</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-on-surface": "#313030", "on-tertiary-fixed": "#001b3c", "primary-container": "#e50914", "primary-fixed-dim": "#ffb4aa", "on-primary": "#690003", "tertiary": "#a7c8ff", "tertiary-container": "#0072d7", "on-tertiary-fixed-variant": "#004689", "inverse-surface": "#e5e2e1", "on-error-container": "#ffdad6", "surface-container-lowest": "#0e0e0e", "primary-fixed": "#ffdad5", "surface-container-high": "#2a2a2a", "on-primary-container": "#fff7f6", "secondary-container": "#474746", "primary": "#ffb4aa", "on-background": "#e5e2e1", "surface": "#131313", "inverse-primary": "#c0000c", "tertiary-fixed": "#d5e3ff", "error-container": "#93000a", "secondary-fixed": "#e5e2e1", "on-secondary-fixed": "#1b1b1c", "surface-variant": "#353534", "outline-variant": "#5e3f3b", "surface-dim": "#131313", "secondary-fixed-dim": "#c8c6c5", "on-primary-fixed": "#410001", "secondary": "#c8c6c5", "outline": "#af8782", "surface-tint": "#ffb4aa", "on-secondary-container": "#b7b5b4", "on-tertiary-container": "#f8f9ff", "on-secondary-fixed-variant": "#474746", "background": "#131313", "on-tertiary": "#003061", "surface-container-highest": "#353534", "on-error": "#690005", "surface-bright": "#393939", "on-surface": "#e5e2e1", "on-primary-fixed-variant": "#930007", "on-surface-variant": "#e9bcb6", "surface-container": "#201f1f", "surface-container-low": "#1c1b1b", "tertiary-fixed-dim": "#a7c8ff", "error": "#ffb4ab", "on-secondary": "#303030" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "3rem", "space-2xs": "0.5rem", "grid-gutter": "1rem", "space-md": "1.5rem", "space-xs": "0.75rem", "space-lg": "2rem", "space-sm": "1rem", "space-3xs": "0.25rem", "container-margin": "1rem" }, "fontFamily": { "headline-lg": [ "Plus Jakarta Sans" ], "label-md": [ "Inter" ], "label-lg": [ "Inter" ], "headline-md": [ "Plus Jakarta Sans" ], "body-sm": [ "Inter" ], "label-sm": [ "Inter" ], "headline-xl": [ "Plus Jakarta Sans" ], "body-lg": [ "Inter" ], "headline-sm": [ "Plus Jakarta Sans" ], "body-md": [ "Inter" ] }, "fontSize": { "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "label-lg": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "headline-md": [ "20px", { "lineHeight": "28px", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "label-sm": [ "10px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" } ], "headline-xl": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container"><header class="w-full py-space-md px-container-margin md:px-space-xl"><div class="w-full flex items-center justify-between"><a class="flex items-center gap-space-2xs group" data-path="sign-in" href="#"><img alt="A clean, modern geometric logo featuring an 'S' intertwined with a parking emblem 'P' in Electric Cherry to Crimson Red gradient on dark background" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VCUScEd7qExXKKROO-4dVgtyJurYJ4A2lGbNq4hWXKATfN9AqM0m2hA8a_FQfCpAmoGjABN0af8-fwUZEKlKr4xymJN7QRzzkxdMMi8B8wScOo3VnHMXPRPiyZTJ5OD7nSPylsxB7y6I0aWkcHz2eNIQLGNu-z-5zqaO5pqWsoZgh-OHikECubPxEMwfBOg4QPvEtg1oiVrdO1KRczqAxy84n8xnLYCiiO4w2w9HGsG3CNr5Gro-GUH5E"/><span class="font-headline-md text-headline-md tracking-tight"><span class="text-on-surface">San</span><span class="text-primary-container">Park</span></span></a><a class="inline-flex items-center gap-space-3xs text-secondary hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="landing-page" href="#"><span class="material-symbols-outlined text-[18px]">arrow_back</span><span>Back to Home</span></a></div></header><main class="w-full flex-1 flex items-center justify-center px-container-margin py-space-lg"><div class="w-full max-w-md"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Layer behind Auth Card -->
+<div class="relative w-full max-w-md mx-auto">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 w-72 h-44 bg-primary-container/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Main Auth Card Container -->
+<div class="relative w-full rounded-2xl bg-surface-container shadow-2xl overflow-hidden">
+<!-- Top Accent Pulse Line -->
+<div class="w-full h-1 bg-surface-container-high relative overflow-hidden">
+<div class="absolute top-0 bottom-0 left-0 w-1/2 bg-primary-container transition-all duration-500 ease-out" id="top-progress-bar"></div>
+</div>
+<div class="p-space-md sm:p-space-lg">
+<!-- Segmented Tab Switcher -->
+<div class="grid grid-cols-2 p-1 rounded-xl bg-surface-container-lowest gap-1 mb-space-md select-none">
+<button class="py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 bg-surface-container text-on-surface shadow-sm font-semibold flex items-center justify-center gap-1.5" id="tab-btn-login" onclick="switchAuthTab('login')" type="button">
+<span class="material-symbols-outlined text-[18px]">login</span>
+<span>Log In</span>
+</button>
+<button class="py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 text-secondary hover:text-on-surface flex items-center justify-center gap-1.5" id="tab-btn-signup" onclick="switchAuthTab('signup')" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Create Account</span>
+</button>
+</div>
+<!-- ======================= LOG IN PANEL ======================= -->
+<div class="transition-all duration-300" id="login-panel">
+<div class="mb-space-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Welcome back</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Log in to continue to your parking dashboard.</p>
+</div>
+<!-- Alert message box for simulated feedback -->
+<div class="hidden mb-space-sm p-3 rounded-lg bg-surface-container-highest flex items-start gap-2.5" id="login-status-banner">
+<span class="material-symbols-outlined text-[18px] text-primary-container shrink-0 mt-0.5">info</span>
+<span class="font-body-sm text-body-sm text-on-surface" id="login-status-text"></span>
+</div>
+<form class="space-y-4" id="login-form" novalidate="" onsubmit="handleLoginSubmit(event)">
+<!-- Email -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="login-email">Email Address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">mail</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-3.5 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="login-email" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" placeholder="driver@example.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="login-password">Password</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">lock</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-10 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="login-password" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" placeholder="Enter your password" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-secondary hover:text-on-surface p-1 rounded transition-colors flex items-center justify-center" onclick="togglePasswordVisibility('login-password', 'login-pwd-icon')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="login-pwd-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Options Row -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input class="accent-primary-container w-4 h-4 rounded cursor-pointer bg-surface-container-lowest" id="remember-me" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-secondary hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<button class="font-label-md text-label-md text-primary hover:text-on-surface transition-colors focus:outline-none" onclick="openForgotPasswordModal()" type="button">
+                Forgot password?
+              </button>
+</div>
+<!-- Submit CTA -->
+<button class="w-full mt-2 py-3 px-4 bg-primary-container hover:opacity-90 active:scale-[0.99] text-on-primary-container font-headline-sm text-headline-sm rounded-xl transition-all duration-150 shadow-md flex items-center justify-center gap-2 font-semibold" id="login-submit-btn" type="submit">
+<span>Log In</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<!-- Social Divider -->
+<div class="relative my-space-md text-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full bg-surface-container-high h-[1px]"></div>
+</div>
+<span class="relative bg-surface-container px-3 text-secondary font-label-sm text-label-sm uppercase tracking-wider">or</span>
+</div>
+<!-- Social Button -->
+<button class="w-full py-3 px-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container-high transition-colors duration-150 flex items-center justify-center gap-3 text-on-surface font-label-lg text-label-lg font-medium shadow-sm" onclick="simulateGoogleAuth()" type="button">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- Toggle hint footer -->
+<div class="mt-space-md text-center">
+<p class="font-body-sm text-body-sm text-secondary">
+              Don't have an account?
+              <button class="font-label-md text-label-md text-primary hover:text-on-surface transition-colors font-semibold ml-1 underline decoration-primary-container/40 underline-offset-4" onclick="switchAuthTab('signup')" type="button">
+                Create one
+              </button>
+</p>
+</div>
+</div>
+<!-- ======================= CREATE ACCOUNT PANEL ======================= -->
+<div class="hidden transition-all duration-300" id="signup-panel">
+<div class="mb-space-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Create your account</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Enter your details to get started with instant parking access.</p>
+</div>
+<form class="space-y-4" id="signup-form" novalidate="" onsubmit="handleSignupSubmit(event)">
+<!-- Full Name -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="signup-name">Full Name</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">person</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-3.5 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="signup-name" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" placeholder="Elena Rostova" required="" type="text"/>
+</div>
+<p class="hidden font-body-sm text-body-sm text-error flex items-center gap-1 mt-1" id="name-error">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span>Please enter your full name.</span>
+</p>
+</div>
+<!-- Email with Live Validation -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="signup-email">Email Address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">mail</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-3.5 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="signup-email" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" oninput="validateSignupEmail()" placeholder="driver@example.com" required="" type="email"/>
+</div>
+<p class="hidden font-body-sm text-body-sm text-error flex items-center gap-1 mt-1" id="email-error">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span id="email-error-text">Please enter a valid email address.</span>
+</p>
+</div>
+<!-- Password -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="signup-password">Password</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">lock</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-10 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="signup-password" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" oninput="validatePasswordStrength()" placeholder="At least 8 characters" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-secondary hover:text-on-surface p-1 rounded transition-colors flex items-center justify-center" onclick="togglePasswordVisibility('signup-password', 'signup-pwd-icon')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="signup-pwd-icon">visibility</span>
+</button>
+</div>
+<!-- Password Helper / Dynamic Strength Bars -->
+<div class="flex items-center gap-1.5 pt-1">
+<div class="h-1 flex-1 rounded-full bg-surface-container-high transition-colors" id="strength-bar-1"></div>
+<div class="h-1 flex-1 rounded-full bg-surface-container-high transition-colors" id="strength-bar-2"></div>
+<div class="h-1 flex-1 rounded-full bg-surface-container-high transition-colors" id="strength-bar-3"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary" id="pwd-helper-text">Password must be at least 8 characters.</p>
+</div>
+<!-- Confirm Password -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="signup-confirm-password">Confirm Password</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">lock_reset</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-10 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="signup-confirm-password" onblur="this.classList.remove('bg-surface-container-high')" onfocus="this.classList.add('bg-surface-container-high')" oninput="checkPasswordMatch()" placeholder="Re-enter your password" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-secondary hover:text-on-surface p-1 rounded transition-colors flex items-center justify-center" onclick="togglePasswordVisibility('signup-confirm-password', 'signup-conf-pwd-icon')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="signup-conf-pwd-icon">visibility</span>
+</button>
+</div>
+<p class="hidden font-body-sm text-body-sm text-error flex items-center gap-1 mt-1" id="confirm-pwd-error">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span>Passwords don't match.</span>
+</p>
+</div>
+<!-- Terms acceptance note -->
+<p class="font-body-sm text-body-sm text-secondary pt-1">
+              By creating an account, you agree to SanPark's
+              <a class="text-primary hover:underline" href="#">Terms</a> and
+              <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+            </p>
+<!-- Submit CTA -->
+<button class="w-full py-3 px-4 bg-primary-container hover:opacity-90 active:scale-[0.99] text-on-primary-container font-headline-sm text-headline-sm rounded-xl transition-all duration-150 shadow-md flex items-center justify-center gap-2 font-semibold" id="signup-submit-btn" type="submit">
+<span>Create Account</span>
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</form>
+<!-- Social Divider -->
+<div class="relative my-space-md text-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full bg-surface-container-high h-[1px]"></div>
+</div>
+<span class="relative bg-surface-container px-3 text-secondary font-label-sm text-label-sm uppercase tracking-wider">or</span>
+</div>
+<!-- Social Button -->
+<button class="w-full py-3 px-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container-high transition-colors duration-150 flex items-center justify-center gap-3 text-on-surface font-label-lg text-label-lg font-medium shadow-sm" onclick="simulateGoogleAuth()" type="button">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- Toggle hint footer -->
+<div class="mt-space-md text-center">
+<p class="font-body-sm text-body-sm text-secondary">
+              Already have an account?
+              <button class="font-label-md text-label-md text-primary hover:text-on-surface transition-colors font-semibold ml-1 underline decoration-primary-container/40 underline-offset-4" onclick="switchAuthTab('login')" type="button">
+                Log in
+              </button>
+</p>
+</div>
+</div>
+<!-- ======================= STATE 3: SIMULATED VERIFICATION VIEW ======================= -->
+<div class="hidden transition-all duration-300 py-4 text-center" id="verification-view">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest text-primary-container flex items-center justify-center mx-auto mb-space-sm shadow-md">
+<span class="material-symbols-outlined text-[36px] animate-pulse">mark_email_read</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Verify your email</h2>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            We sent a verification link to
+            <span class="text-on-surface font-medium" id="registered-user-email"></span>.
+            Please check your inbox to activate your SanPark account.
+          </p>
+<div class="p-space-sm rounded-xl bg-surface-container-lowest my-space-md text-left flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-[24px]">verified_user</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Priority Reservation Ready</p>
+<p class="font-body-sm text-body-sm text-secondary">Once confirmed, you will instantly unlock real-time slot lock.</p>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full py-3 px-4 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-headline-sm text-headline-sm transition-colors" id="resend-code-btn" onclick="resendVerificationCode()" type="button">
+              Resend verification link
+            </button>
+<button class="w-full py-2.5 px-4 text-secondary hover:text-on-surface font-label-lg text-label-lg transition-colors" onclick="switchAuthTab('login')" type="button">
+              Back to Sign In
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Indicator Pill below card -->
+<div class="mt-space-sm flex items-center justify-center gap-2 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">lock</span>
+<span>256-bit encrypted authentication • Obsidian Cloud</span>
+</div>
+</div>
+<!-- ======================= FORGOT PASSWORD MODAL ======================= -->
+<div aria-modal="true" class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-200" id="forgot-password-modal" role="dialog">
+<div class="w-full max-w-md bg-surface-container p-space-md rounded-2xl shadow-2xl relative">
+<button aria-label="Close modal" class="absolute top-4 right-4 text-secondary hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors" onclick="closeForgotPasswordModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest flex items-center justify-center text-primary-container mb-space-sm">
+<span class="material-symbols-outlined text-[26px]">key</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Reset your password</h3>
+<p class="font-body-md text-body-md text-secondary mt-1 mb-space-md">
+        Enter the email address tied to your SanPark account and we'll send a recovery link.
+      </p>
+<form class="space-y-4" id="reset-password-form" onsubmit="handleResetPasswordSubmit(event)">
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-secondary" for="reset-email">Email Address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[20px] pointer-events-none">mail</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-secondary-container pl-10 pr-3.5 py-3 rounded-lg font-body-md text-body-md outline-none focus:bg-surface-container-low transition-colors duration-150" id="reset-email" placeholder="driver@example.com" required="" type="email"/>
+</div>
+</div>
+<div class="hidden p-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm flex items-center gap-2" id="reset-status">
+<span class="material-symbols-outlined text-primary-container text-[18px]">check_circle</span>
+<span>Reset link sent! Please check your spam folder if not received in 2 minutes.</span>
+</div>
+<div class="flex items-center gap-3 pt-2">
+<button class="flex-1 py-3 px-4 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-lg text-label-lg transition-colors" onclick="closeForgotPasswordModal()" type="button">
+            Cancel
+          </button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-primary-container text-on-primary-container font-label-lg text-label-lg font-semibold hover:opacity-90 transition-all shadow-md" id="reset-submit-btn" type="submit">
+            Send Link
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Interactive Logic Script -->
+<script>
+    function switchAuthTab(tab) {
+      const loginPanel = document.getElementById('login-panel');
+      const signupPanel = document.getElementById('signup-panel');
+      const verificationView = document.getElementById('verification-view');
+      const tabLoginBtn = document.getElementById('tab-btn-login');
+      const tabSignupBtn = document.getElementById('tab-btn-signup');
+      const progressBar = document.getElementById('top-progress-bar');
+
+      // Hide verification view whenever tabs are toggled explicitly
+      verificationView.classList.add('hidden');
+
+      if (tab === 'login') {
+        loginPanel.classList.remove('hidden');
+        signupPanel.classList.add('hidden');
+
+        tabLoginBtn.className = "py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 bg-surface-container text-on-surface shadow-sm font-semibold flex items-center justify-center gap-1.5";
+        tabSignupBtn.className = "py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 text-secondary hover:text-on-surface flex items-center justify-center gap-1.5";
+
+        progressBar.style.transform = 'translateX(0%)';
+        progressBar.style.width = '50%';
+      } else {
+        loginPanel.classList.add('hidden');
+        signupPanel.classList.remove('hidden');
+
+        tabSignupBtn.className = "py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 bg-surface-container text-on-surface shadow-sm font-semibold flex items-center justify-center gap-1.5";
+        tabLoginBtn.className = "py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 text-secondary hover:text-on-surface flex items-center justify-center gap-1.5";
+
+        progressBar.style.transform = 'translateX(100%)';
+        progressBar.style.width = '50%';
+      }
+    }
+
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function validateSignupEmail() {
+      const emailInput = document.getElementById('signup-email');
+      const errorMsg = document.getElementById('email-error');
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailInput.value) {
+        errorMsg.classList.add('hidden');
+        return false;
+      }
+
+      if (!regex.test(emailInput.value)) {
+        errorMsg.classList.remove('hidden');
+        return false;
+      } else {
+        errorMsg.classList.add('hidden');
+        return true;
+      }
+    }
+
+    function validatePasswordStrength() {
+      const pwd = document.getElementById('signup-password').value;
+      const b1 = document.getElementById('strength-bar-1');
+      const b2 = document.getElementById('strength-bar-2');
+      const b3 = document.getElementById('strength-bar-3');
+      const helper = document.getElementById('pwd-helper-text');
+
+      // Reset
+      b1.className = "h-1 flex-1 rounded-full bg-surface-container-high transition-colors";
+      b2.className = "h-1 flex-1 rounded-full bg-surface-container-high transition-colors";
+      b3.className = "h-1 flex-1 rounded-full bg-surface-container-high transition-colors";
+
+      if (pwd.length === 0) {
+        helper.textContent = "Password must be at least 8 characters.";
+        helper.className = "font-body-sm text-body-sm text-secondary";
+        return;
+      }
+
+      if (pwd.length < 8) {
+        b1.className = "h-1 flex-1 rounded-full bg-primary-container transition-colors";
+        helper.textContent = "Too weak (minimum 8 characters required)";
+        helper.className = "font-body-sm text-body-sm text-primary";
+      } else if (pwd.length >= 8 && (!/[A-Z]/.test(pwd) || !/[0-9]/.test(pwd))) {
+        b1.className = "h-1 flex-1 rounded-full bg-tertiary-container transition-colors";
+        b2.className = "h-1 flex-1 rounded-full bg-tertiary-container transition-colors";
+        helper.textContent = "Good. Add a number or uppercase letter for optimal safety.";
+        helper.className = "font-body-sm text-body-sm text-secondary";
+      } else {
+        b1.className = "h-1 flex-1 rounded-full bg-tertiary-container transition-colors";
+        b2.className = "h-1 flex-1 rounded-full bg-tertiary-container transition-colors";
+        b3.className = "h-1 flex-1 rounded-full bg-tertiary-container transition-colors";
+        helper.textContent = "Strong password.";
+        helper.className = "font-body-sm text-body-sm text-on-surface";
+      }
+    }
+
+    function checkPasswordMatch() {
+      const pwd = document.getElementById('signup-password').value;
+      const conf = document.getElementById('signup-confirm-password').value;
+      const errorMsg = document.getElementById('confirm-pwd-error');
+
+      if (!conf) {
+        errorMsg.classList.add('hidden');
+        return false;
+      }
+
+      if (pwd !== conf) {
+        errorMsg.classList.remove('hidden');
+        return false;
+      } else {
+        errorMsg.classList.add('hidden');
+        return true;
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const pwd = document.getElementById('login-password').value.trim();
+      const banner = document.getElementById('login-status-banner');
+      const bannerText = document.getElementById('login-status-text');
+      const submitBtn = document.getElementById('login-submit-btn');
+
+      if (!email || !pwd) {
+        banner.classList.remove('hidden');
+        bannerText.textContent = "Please fill in both email and password.";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span><span>Signing In...</span>';
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Log In</span><span class="material-symbols-outlined text-[20px]">arrow_forward</span>';
+        banner.classList.remove('hidden');
+        bannerText.innerHTML = '<span class="text-on-surface font-medium">Session initialized:</span> Authenticating credentials with SanPark Security Engine...';
+      }, 900);
+    }
+
+    function handleSignupSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const pwd = document.getElementById('signup-password').value;
+      const conf = document.getElementById('signup-confirm-password').value;
+      const nameError = document.getElementById('name-error');
+      const submitBtn = document.getElementById('signup-submit-btn');
+
+      let isValid = true;
+
+      if (!name) {
+        nameError.classList.remove('hidden');
+        isValid = false;
+      } else {
+        nameError.classList.add('hidden');
+      }
+
+      if (!validateSignupEmail()) {
+        isValid = false;
+      }
+
+      if (pwd.length < 8) {
+        isValid = false;
+      }
+
+      if (pwd !== conf) {
+        document.getElementById('confirm-pwd-error').classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span><span>Creating Account...</span>';
+
+      // Transition smoothly to Email Verification View
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Create Account</span><span class="material-symbols-outlined text-[20px]">person_add</span>';
+
+        document.getElementById('signup-panel').classList.add('hidden');
+        document.getElementById('login-panel').classList.add('hidden');
+        document.getElementById('registered-user-email').textContent = email;
+        document.getElementById('verification-view').classList.remove('hidden');
+
+        // Update progress bar
+        const progressBar = document.getElementById('top-progress-bar');
+        progressBar.style.transform = 'translateX(0%)';
+        progressBar.style.width = '100%';
+      }, 800);
+    }
+
+    function resendVerificationCode() {
+      const btn = document.getElementById('resend-code-btn');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Link resent to your inbox!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }, 3000);
+    }
+
+    function openForgotPasswordModal() {
+      const modal = document.getElementById('forgot-password-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeForgotPasswordModal() {
+      const modal = document.getElementById('forgot-password-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.getElementById('reset-status').classList.add('hidden');
+      document.getElementById('reset-password-form').reset();
+    }
+
+    function handleResetPasswordSubmit(e) {
+      e.preventDefault();
+      const status = document.getElementById('reset-status');
+      const btn = document.getElementById('reset-submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = 'Sent';
+        status.classList.remove('hidden');
+      }, 600);
+    }
+
+    function simulateGoogleAuth() {
+      const banner = document.getElementById('login-status-banner');
+      const bannerText = document.getElementById('login-status-text');
+      banner.classList.remove('hidden');
+      bannerText.innerHTML = '<span class="text-on-surface font-medium">Google SSO Handshake:</span> Connecting securely via OAuth 2.0...';
+    }
+  </script>
+</div></div></main><footer class="w-full py-space-md px-container-margin md:px-space-xl bg-surface-container-lowest/50"><div class="w-full flex flex-col md:flex-row items-center justify-between gap-space-2xs text-secondary font-label-md text-label-md"><div class="flex items-center gap-space-3xs"><span class="h-2 w-2 rounded-full bg-primary-container animate-pulse"></span><span class="text-on-surface-variant font-label-sm text-label-sm tracking-wider uppercase">All Systems Operational</span></div><div class="flex flex-wrap items-center justify-center gap-x-space-2xs text-center"><span>© 2025 SanPark Mobility Inc.</span><span>•</span><a class="hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a><span>•</span><a class="hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a></div></div></footer></body></html>

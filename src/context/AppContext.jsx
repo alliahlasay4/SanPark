@@ -24,8 +24,8 @@ export const DEMO_ACCOUNTS = {
 };
 
 export function AppProvider({ children }) {
-  const [userRole, setUserRole] = useState('user');
-  const [currentUser, setCurrentUser] = useState(DEMO_ACCOUNTS.user);
+  const [userRole, setUserRole] = useState('guest');
+  const [currentUser, setCurrentUser] = useState(null);
   const [activeView, setActiveView] = useState('find-parking');
   const [hubs, setHubs] = useState(INITIAL_PARKING_HUBS);
   const [vehicles, setVehicles] = useState(INITIAL_VEHICLES);
@@ -70,8 +70,13 @@ export function AppProvider({ children }) {
   };
 
   const signOut = () => {
-    setUserRole('user');
-    setCurrentUser(DEMO_ACCOUNTS.user);
+    setUserRole('guest');
+    setCurrentUser(null);
+    setSelectedSlot(null);
+    setFloorPlanModalOpen(false);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   };
 
   const selectedVehicle = vehicles.find(v => v.isDefault) || vehicles[0];

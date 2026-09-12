@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function FindParkingView() {
   const { hubs, openFloorPlan, vehicles, selectedVehicle, setDefaultVehicle, surgePricingActive } = useApp();
+  const location = useLocation();
   const [filter, setFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(location.state?.searchQuery || '');
   const [liveCount, setLiveCount] = useState(1482);
-  const [highlightedHubId, setHighlightedHubId] = useState(null);
+  const [highlightedHubId, setHighlightedHubId] = useState(location.state?.hubId || null);
 
   // Simulate real-time ticker fluctuation
   useEffect(() => {

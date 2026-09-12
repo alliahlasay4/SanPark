@@ -1,11 +1,31 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloorPlanModal from './components/FloorPlanModal';
 
+// Ensure manual scroll restoration so page reloads and navigations start at top
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    // If navigating to an in-page section with an anchor (e.g. #quick-search), preserve anchor scrolling
+    if (hash) return;
+    
+    // Always reset window scroll position to the very top on route changes
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname, hash]);
+
+  return null;
+}
+
 // Pages
+import LandingPage from './pages/LandingPage';
 import FindParkingPage from './pages/FindParkingPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import MallManagerPage from './pages/MallManagerPage';
@@ -40,18 +60,23 @@ function AdminRoute({ children }) {
 
 function UserRoute({ children }) {
   const { userRole } = useApp();
-  return userRole === 'user' ? children : <Navigate to="/customer-reservations" replace />;
+  return userRole === 'user' ? children : <Navigate to="/login" replace />;
 }
 
 function MainLayout() {
+  const location = useLocation();
+  const isLanding = location.pathname === '/' || location.pathname === '/home';
+
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
-      <Navbar />
+      {/* Global Navbar shown only on internal routes, LandingPage has its own dedicated guest navbar */}
+      {!isLanding && <Navbar />}
       
-      {/* Spacer for fixed top navbar */}
-      <main className="flex-grow pt-16 flex flex-col w-full">
+      {/* Spacer for fixed top navbar on internal pages */}
+      <main className={`flex-grow flex flex-col w-full ${!isLanding ? 'pt-16' : ''}`}>
         <Routes>
-          <Route path="/" element={<RoleLanding />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/find-parking" element={<FindParkingPage />} />
           <Route path="/my-bookings" element={<UserRoute><MyBookingsPage /></UserRoute>} />
           <Route path="/mall-manager" element={<AdminRoute><MallManagerPage /></AdminRoute>} />
@@ -75,6 +100,7 @@ export default function App() {
   return (
     <AppProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<MainLayout />} />
