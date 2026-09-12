@@ -85,7 +85,7 @@ export function GuestNavbar({ onSignInClick, onReserveClick }) {
         {/* Right-Side Authentication Actions */}
         <div className="flex items-center gap-space-sm">
           {(!currentUser || userRole === 'guest') ? (
-            <>
+            <div className="hidden lg:flex items-center gap-space-sm">
               {/* Sign in button (routes to login page in Log In toggle) */}
               <button
                 type="button"
@@ -105,7 +105,7 @@ export function GuestNavbar({ onSignInClick, onReserveClick }) {
               >
                 Reserve a Spot
               </button>
-            </>
+            </div>
           ) : (
             /* Authenticated Quick Controls (if logged in user visits landing page) */
             <div className="flex items-center gap-space-xs">

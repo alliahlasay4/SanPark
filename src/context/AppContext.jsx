@@ -34,12 +34,36 @@ export function AppProvider({ children }) {
   const [history, setHistory] = useState(INITIAL_USER_HISTORY);
   const [customerReservations, setCustomerReservations] = useState([]);
   
+  // Active reservation details from HubPickerModal / FloorPlanModal
+  const [activeReservation, setActiveReservation] = useState(null);
+
   // Floor plan & booking modal state
   const [floorPlanModalOpen, setFloorPlanModalOpen] = useState(false);
   const [selectedHub, setSelectedHub] = useState(INITIAL_PARKING_HUBS[0]);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [activeLevel, setActiveLevel] = useState('B1');
   const [slotsState, setSlotsState] = useState(INITIAL_SLOTS);
+
+  const createPendingReservation = (config) => {
+    const resRef = `SP-${Math.floor(1000 + Math.random() * 9000)}-${config.hub.id.substring(0, 3).toUpperCase()}`;
+    const newRes = {
+      ref: resRef,
+      hub: config.hub,
+      mall: config.hub.name,
+      address: config.hub.address,
+      vehicle: config.vehicle,
+      date: config.reservationDate,
+      entryTime: config.entryTime,
+      durationHours: config.durationHours,
+      duration: `${config.durationHours} Hours`,
+      basePrice: config.hub.baseRate * config.durationHours,
+      level: 'B1',
+      slotId: 'A-06',
+      bayType: 'Standard',
+    };
+    setActiveReservation(newRes);
+    return newRes;
+  };
 
   // Mall Manager Controls
   const [surgePricingActive, setSurgePricingActive] = useState(true);
@@ -174,6 +198,36 @@ export function AppProvider({ children }) {
       }, ...prev]);
     }
 
+    // Update active reservation with selected level and slot
+    setActiveReservation(prev => {
+      if (!prev) {
+        return {
+          ref: `SP-${Math.floor(1000 + Math.random() * 9000)}-${hub.id.substring(0, 3).toUpperCase()}`,
+          hub: hub,
+          mall: hub.name,
+          address: hub.address,
+          vehicle: selectedVehicle,
+          date: new Date().toISOString().split('T')[0],
+          entryTime: '10:00 AM',
+          durationHours: 4,
+          duration: '4 Hours',
+          basePrice: hub.baseRate * 4,
+          level: activeLevel,
+          slotId: slotId,
+          bayType: slotId.startsWith('A-01') ? 'EV Fast Charge' : 'Standard',
+        };
+      }
+      return {
+        ...prev,
+        hub: hub,
+        mall: hub.name,
+        address: hub.address,
+        level: activeLevel,
+        slotId: slotId,
+        bayType: slotId.startsWith('A-01') ? 'EV Fast Charge' : 'Standard',
+      };
+    });
+
     closeFloorPlan();
     showToast(isAdminBooking
       ? `Customer reservation created for ${customerDetails.name}`
@@ -200,6 +254,9 @@ export function AppProvider({ children }) {
       sessions,
       history,
       customerReservations,
+      activeReservation,
+      setActiveReservation,
+      createPendingReservation,
       floorPlanModalOpen,
       openFloorPlan,
       closeFloorPlan,

@@ -4,200 +4,665 @@ import VehicleModal from '../components/VehicleModal';
 import PaymentModal from '../components/PaymentModal';
 
 export default function UserProfileView() {
-  const { 
-    vehicles, 
-    setDefaultVehicle, 
-    payments, 
-    setPrimaryPayment, 
+  const {
+    vehicles,
+    setDefaultVehicle,
+    payments,
+    setPrimaryPayment,
     history,
-    showToast 
+    signOut,
+    showToast
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState('garage');
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [showQuickAddDrawer, setShowQuickAddDrawer] = useState(false);
 
-  // General & Security states
+  // Security Toggles
   const [bioLogin, setBioLogin] = useState(true);
   const [twoFactor, setTwoFactor] = useState(true);
-  const [notifExpiry, setNotifExpiry] = useState(true);
-  const [notifPromo, setNotifPromo] = useState(true);
-  const [notifSms, setNotifSms] = useState(false);
 
-  const tabs = [
-    { id: 'profile', label: 'General & Security', icon: 'person' },
-    { id: 'vehicles', label: 'Saved Vehicles', icon: 'directions_car', badge: vehicles.length },
-    { id: 'payments', label: 'Payment Methods', icon: 'payments', badge: payments.length },
-    { id: 'stats', label: 'Parking Stats & History', icon: 'analytics' },
-  ];
+  // Editable Account & Security state
+  const [profileName, setProfileName] = useState('Mark Cruz');
+  const [profileEmail, setProfileEmail] = useState('mark.cruz@sanpark.io');
+  const [profileMobile, setProfileMobile] = useState('+63 917 555 0192');
+  const [profileRegion, setProfileRegion] = useState('Metro Manila (GMT+8)');
+  const [isEditingSettings, setIsEditingSettings] = useState(false);
+  const [isSavedSuccess, setIsSavedSuccess] = useState(false);
+
+  // Backup draft state for cancel functionality
+  const [draftName, setDraftName] = useState('Mark Cruz');
+  const [draftEmail, setDraftEmail] = useState('mark.cruz@sanpark.io');
+  const [draftMobile, setDraftMobile] = useState('+63 917 555 0192');
+  const [draftRegion, setDraftRegion] = useState('Metro Manila (GMT+8)');
+
+  const handleStartEdit = () => {
+    setDraftName(profileName);
+    setDraftEmail(profileEmail);
+    setDraftMobile(profileMobile);
+    setDraftRegion(profileRegion);
+    setIsEditingSettings(true);
+  };
+
+  const handleCancelEdit = () => {
+    setProfileName(draftName);
+    setProfileEmail(draftEmail);
+    setProfileMobile(draftMobile);
+    setProfileRegion(draftRegion);
+    setIsEditingSettings(false);
+  };
+
+  const handleSaveProfile = (e) => {
+    if (e) e.preventDefault();
+    if (!profileName.trim() || !profileEmail.trim()) {
+      showToast("Full Name and Email Address cannot be empty.");
+      return;
+    }
+    setIsEditingSettings(false);
+    setIsSavedSuccess(true);
+    showToast("Account & Security details saved successfully!");
+    setTimeout(() => setIsSavedSuccess(false), 4000);
+  };
+
+  // Quick add vehicle form state
+  const [newVehType, setNewVehType] = useState('Sedan / Hatchback');
+  const [newVehPlate, setNewVehPlate] = useState('');
+  const [newVehModel, setNewVehModel] = useState('');
+  const [newVehAnpr, setNewVehAnpr] = useState(true);
+
+  const handleQuickAddSubmit = (e) => {
+    e.preventDefault();
+    if (!newVehPlate.trim() || !newVehModel.trim()) {
+      showToast("Please enter vehicle plate and make/model.");
+      return;
+    }
+    showToast(`Vehicle ${newVehModel} (${newVehPlate.toUpperCase()}) registered successfully!`);
+    setShowQuickAddDrawer(false);
+    setNewVehPlate('');
+    setNewVehModel('');
+  };
 
   return (
-    <div className="flex flex-col w-full text-on-surface">
-      
-      {/* Interactive Dashboard Banner / Profile Overview */}
-      <div className="relative w-full overflow-hidden bg-surface-container-low px-container-margin md:px-space-xl py-space-xl border-b border-surface-container-high">
-        <div className="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
-        <div className="absolute right-1/3 -bottom-20 w-80 h-80 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none"></div>
+    <div className="w-full flex-grow py-space-lg px-container-margin md:px-space-xl text-on-surface">
 
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md relative z-10">
-          <div className="flex items-center space-x-space-md">
-            <div className="relative">
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-surface-container-high ring-4 ring-primary-container/40 shadow-2xl">
-                <img
-                  className="w-full h-full object-cover"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5bvRdWVC7p9MesXQArQVjMgCtcxzoeW5NMAfuQN6x5_pwVnCOx3LKfDQRNXqpELEVFQUCjoEWGswiEpFxpWfqhGiS5iHcsmToBdfNYipmV6M3M8F8HgyfE5778DBh1pHihPt85W0iWjbm7IaBOiwfgQUkAbE8xzvOBkEf2pPXhxsCY8tNiDhWmKPw4RTDytvTxRlGvVL64_GzDSP5dObdYB7KKj037uV62M8uztKUiCnvtIFHy1-A"
-                  alt="Mark Cruz"
-                />
-              </div>
-              <span className="absolute bottom-0 right-0 bg-primary-container text-on-primary-container px-space-2xs py-0.5 rounded-full text-label-sm font-semibold shadow-md flex items-center space-x-1">
-                <span className="material-symbols-outlined text-[13px]">verified</span>
-                <span>ELITE</span>
-              </span>
-            </div>
+      {/* Modals */}
+      <VehicleModal
+        isOpen={vehicleModalOpen}
+        onClose={() => setVehicleModalOpen(false)}
+      />
+      <PaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+      />
 
-            <div>
-              <div className="flex items-center space-x-space-2xs">
-                <span className="text-label-sm uppercase tracking-wider text-primary font-bold">
-                  SanPark Elite Member
-                </span>
-                <span className="text-outline">•</span>
-                <span className="text-body-sm text-secondary">Member since 2022</span>
-              </div>
-              <h1 className="text-headline-xl font-headline-xl text-on-surface mt-0.5">Mark Cruz</h1>
-              <p className="text-body-md text-secondary">mark.cruz@sanpark.io • +63 917 555 0192</p>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto space-y-space-lg">
 
-          <div className="flex flex-wrap items-center gap-space-sm bg-surface-container p-space-md rounded-xl shadow-xl border border-surface-container-highest w-full md:w-auto">
-            <div className="flex items-center space-x-space-sm pr-space-md">
-              <div className="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
-              </div>
-              <div>
-                <div className="text-body-sm text-secondary font-medium">Loyalty Balance</div>
-                <div className="text-headline-md font-headline-md text-on-surface font-bold">
-                  2,450 <span className="text-primary text-body-md font-normal">pts</span>
-                </div>
-              </div>
-            </div>
 
-            <button
-              onClick={() => showToast("Elite Perks: 2 Free Weekend Passes & 15% Charging Rebate Active!")}
-              className="bg-primary-container text-on-primary-container px-space-md py-2 rounded-lg text-label-lg font-semibold hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs"
-            >
-              <span className="material-symbols-outlined text-[18px]">redeem</span>
-              <span>Redeem Rewards</span>
-            </button>
-          </div>
-        </div>
-      </div>
+        {/* Executive Two-Column Asymmetrical Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
 
-      {/* Main Navigation Tabs */}
-      <div className="sticky top-16 z-40 bg-surface/90 backdrop-blur-md px-container-margin md:px-space-xl border-b border-surface-container-high">
-        <div className="max-w-7xl mx-auto flex space-x-space-lg overflow-x-auto">
-          {tabs.map(t => {
-            const isActive = activeTab === t.id;
-            return (
-              <button
-                key={t.id}
-                id={`tab-btn-${t.id}`}
-                onClick={() => setActiveTab(t.id)}
-                className={`py-space-md text-label-lg font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-space-2xs ${
-                  isActive
-                    ? 'border-primary-container text-on-surface'
-                    : 'border-transparent text-secondary hover:text-on-surface'
-                }`}
-              >
-                <span className="material-symbols-outlined text-[18px]">{t.icon}</span>
-                <span>{t.label}</span>
-                {t.badge !== undefined && (
-                  <span className="bg-surface-container-high px-1.5 py-0.2 rounded-full text-xs text-primary font-mono ml-1">
-                    {t.badge}
+          {/* ================= LEFT COLUMN (4 Cols): Profile Sidebar Identity Card ================= */}
+          <aside className="lg:col-span-4 space-y-space-md">
+
+            {/* Unified Identity Card */}
+            <div className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-lg relative overflow-hidden shadow-xl">
+              <div className="absolute -top-16 -right-16 w-36 h-36 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+
+              <div className="flex flex-col items-center text-center relative z-10">
+
+                {/* Avatar with Status Ring */}
+                <div className="relative mb-space-md">
+                  <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-surface-container-highest p-0.5 bg-background shadow-2xl">
+                    <img
+                      alt="Mark Cruz"
+                      className="w-full h-full object-cover rounded-full"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5bvRdWVC7p9MesXQArQVjMgCtcxzoeW5NMAfuQN6x5_pwVnCOx3LKfDQRNXqpELEVFQUCjoEWGswiEpFxpWfqhGiS5iHcsmToBdfNYipmV6M3M8F8HgyfE5778DBh1pHihPt85W0iWjbm7IaBOiwfgQUkAbE8xzvOBkEf2pPXhxsCY8tNiDhWmKPw4RTDytvTxRlGvVL64_GzDSP5dObdYB7KKj037uV62M8uztKUiCnvtIFHy1-A"
+                    />
+                  </div>
+                  <span className="absolute bottom-0 right-0 inline-flex items-center justify-center px-space-2xs py-0.5 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container shadow-md border border-surface-container">
+                    <span className="material-symbols-outlined text-[11px] mr-0.5">star</span>
+                    ELITE
                   </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+                </div>
 
-      {/* Content Container */}
-      <div className="max-w-7xl mx-auto w-full px-container-margin md:px-space-xl py-space-lg space-y-space-xl">
-        
-        {/* TAB 1: GENERAL & SECURITY */}
-        {activeTab === 'profile' && (
-          <div className="space-y-space-lg animate-in fade-in duration-150">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
-              
-              {/* Personal Info Form */}
-              <div className="lg:col-span-2 bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md border border-surface-container-high">
-                <div className="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
-                  <h2 className="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs">
-                    <span className="material-symbols-outlined text-primary">badge</span>
-                    <span>Personal Information</span>
-                  </h2>
-                  <button 
-                    onClick={() => showToast("Edit profile opened")}
-                    className="text-label-md text-primary hover:underline flex items-center space-x-1"
+                {/* Identity Details */}
+                <h2 className="text-headline-md font-headline-md text-on-surface">{profileName}</h2>
+                <p className="text-body-xs text-secondary font-medium mt-0.5">Corporate &amp; Executive Commuter</p>
+
+                <div className="mt-space-xs inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high border border-surface-container-highest text-body-xs font-semibold text-primary">
+                  <span className="material-symbols-outlined text-[14px]">verified</span>
+                  <span>Elite Member • Since 2022</span>
+                </div>
+
+                <div className="w-full h-px bg-surface-container-high my-space-md"></div>
+
+                {/* Verified Contact Summary */}
+                <div className="w-full space-y-space-2xs text-left text-body-xs text-secondary">
+                  <div className="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low border border-surface-container-highest">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <span className="material-symbols-outlined text-[18px] text-primary">mail</span>
+                      <span className="truncate text-on-surface font-medium">{profileEmail}</span>
+                    </div>
+                    <span className="material-symbols-outlined text-emerald-400 text-[16px]">check_circle</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low border border-surface-container-highest">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <span className="material-symbols-outlined text-[18px] text-primary">call</span>
+                      <span className="truncate text-on-surface font-medium">{profileMobile}</span>
+                    </div>
+                    <span className="material-symbols-outlined text-emerald-400 text-[16px]">check_circle</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low border border-surface-container-highest">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[18px] text-primary">location_city</span>
+                      <span className="truncate text-on-surface font-medium">Metro Manila, PH</span>
+                    </div>
+                    <span className="text-[11px] text-secondary">Primary</span>
+                  </div>
+                </div>
+
+                {/* Quick Profile Actions */}
+                <div className="w-full grid grid-cols-2 gap-space-2xs mt-space-md">
+                  <button
+                    onClick={() => {
+                      setActiveTab('settings');
+                      handleStartEdit();
+                    }}
+                    className="w-full py-space-2xs px-space-xs rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface text-label-md font-semibold border border-surface-container-highest flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[16px]">edit</span>
-                    <span>Edit Details</span>
+                    <span>Edit Profile</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      signOut();
+                      showToast("Signed out of SanPark");
+                    }}
+                    className="w-full py-space-2xs px-space-xs rounded-lg bg-primary-container/10 hover:bg-primary-container/20 text-primary hover:text-primary text-label-md font-semibold border border-primary-container/30 flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">logout</span>
+                    <span>Sign Out</span>
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
-                  <div>
-                    <label className="text-label-md text-secondary block mb-space-3xs">Full Name</label>
-                    <input
-                      readOnly
-                      type="text"
-                      value="Mark Cruz"
-                      className="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none border border-surface-container-high"
-                    />
+              </div>
+            </div>
+
+            {/* Compact Loyalty & Rewards Card */}
+            <div className="bg-gradient-to-br from-surface-container to-surface-container-high border border-surface-container-highest rounded-2xl p-space-md shadow-lg relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full blur-xl pointer-events-none"></div>
+
+              <div className="flex items-center justify-between mb-space-md">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-9 h-9 rounded-lg bg-primary-container/15 text-primary flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[20px]">workspace_premium</span>
                   </div>
                   <div>
-                    <label className="text-label-md text-secondary block mb-space-3xs">Email Address</label>
-                    <input
-                      readOnly
-                      type="email"
-                      value="mark.cruz@sanpark.io"
-                      className="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none border border-surface-container-high"
-                    />
+                    <span className="text-body-xs font-semibold uppercase tracking-wider text-secondary">SanPark Perks</span>
+                    <div className="text-[11px] text-on-surface-variant">Tier 3 Loyalty Balance</div>
                   </div>
-                  <div>
-                    <label className="text-label-md text-secondary block mb-space-3xs">Mobile Number</label>
-                    <input
-                      readOnly
-                      type="text"
-                      value="+63 917 555 0192"
-                      className="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none border border-surface-container-high font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-label-md text-secondary block mb-space-3xs">Default Region</label>
-                    <input
-                      readOnly
-                      type="text"
-                      value="Metro Manila, Philippines"
-                      className="w-full bg-surface-container-low text-on-surface px-space-md py-space-xs rounded-lg text-body-md outline-none border border-surface-container-high"
-                    />
-                  </div>
+                </div>
+                <span className="text-body-xs font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-full">+350 this mo.</span>
+              </div>
+
+              <div className="bg-background/80 border border-surface-container-highest rounded-xl p-3.5 mb-space-md flex items-baseline justify-between">
+                <span className="text-body-xs text-secondary">Available Balance</span>
+                <div className="text-right">
+                  <span className="text-headline-lg font-bold text-on-surface">2,450</span>
+                  <span className="text-body-xs font-bold text-primary ml-1">PTS</span>
                 </div>
               </div>
 
-              {/* Security Settings Card */}
-              <div className="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md flex flex-col justify-between border border-surface-container-high">
-                <div>
-                  <h2 className="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs pb-space-xs border-b border-surface-container-high">
-                    <span className="material-symbols-outlined text-primary">security</span>
-                    <span>Security &amp; Access</span>
-                  </h2>
+              <button
+                onClick={() => showToast("Redeem rewards catalog opened!")}
+                className="w-full py-2.5 px-space-md rounded-lg bg-primary-container hover:bg-primary-container/90 text-on-primary-container text-label-md font-bold tracking-wide uppercase shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[18px]">redeem</span>
+                <span>Redeem Rewards</span>
+              </button>
+            </div>
 
-                  <div className="space-y-space-md mt-space-md">
-                    <div className="flex items-center justify-between">
+            {/* Quick Statistics Snapshot */}
+            <div className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-md text-body-xs">
+              <div className="text-secondary font-semibold uppercase tracking-wider text-[11px] mb-space-xs flex items-center justify-between">
+                <span>Activity Snapshot</span>
+                <span className="text-on-surface-variant">Sep 2026</span>
+              </div>
+              <div className="grid grid-cols-2 gap-space-2xs text-center">
+                <div className="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-highest">
+                  <div className="text-headline-sm font-bold text-on-surface">42.5 h</div>
+                  <div className="text-[11px] text-secondary">Total Parked</div>
+                </div>
+                <div className="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-highest">
+                  <div className="text-headline-sm font-bold text-emerald-400">₱1,420</div>
+                  <div className="text-[11px] text-secondary">Saved via Elite</div>
+                </div>
+              </div>
+            </div>
+
+          </aside>
+
+          {/* ================= RIGHT COLUMN (8 Cols): Tabbed Detailed Content ================= */}
+          <section className="lg:col-span-8 space-y-space-md">
+
+            {/* Sub-Nav Tabs */}
+            <div className="bg-surface-container p-1.5 rounded-xl border border-surface-container-highest flex space-x-1 overflow-x-auto">
+              <button
+                onClick={() => setActiveTab('garage')}
+                className={`flex-1 py-2 px-3.5 rounded-lg text-label-md font-semibold transition-all whitespace-nowrap flex items-center justify-center gap-1.5 ${activeTab === 'garage'
+                  ? 'bg-primary-container text-on-primary-container shadow-md'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface-container-high'
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">directions_car</span>
+                <span>My Vehicles &amp; Garage</span>
+                <span className="ml-0.5 px-1.5 py-0.2 bg-surface-container-highest rounded-full text-[10px] text-on-surface">{vehicles.length}</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('history')}
+                className={`flex-1 py-2 px-3.5 rounded-lg text-label-md font-semibold transition-all whitespace-nowrap flex items-center justify-center gap-1.5 ${activeTab === 'history'
+                  ? 'bg-primary-container text-on-primary-container shadow-md'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface-container-high'
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">history</span>
+                <span>Parking History &amp; Passes</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('settings')}
+                className={`flex-1 py-2 px-3.5 rounded-lg text-label-md font-semibold transition-all whitespace-nowrap flex items-center justify-center gap-1.5 ${activeTab === 'settings'
+                  ? 'bg-primary-container text-on-primary-container shadow-md'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface-container-high'
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">settings</span>
+                <span>Account &amp; Security</span>
+              </button>
+            </div>
+
+            {/* TAB PANEL 1: GARAGE & VEHICLES */}
+            {activeTab === 'garage' && (
+              <div className="space-y-space-md animate-in fade-in duration-150">
+
+                {/* Primary Saved Vehicles Section */}
+                <div className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-lg shadow-md">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-space-md border-b border-surface-container-high gap-space-xs">
+                    <div>
+                      <h3 className="text-title-md font-bold text-on-surface flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-[20px]">garage</span>
+                        <span>Registered Vehicles &amp; Fleet ({vehicles.length})</span>
+                      </h3>
+                      <p className="text-body-xs text-secondary mt-0.5">Smart barrier authorization, instant ANPR license recognition, and RFID credentials</p>
+                    </div>
+
+                    <button
+                      onClick={() => setShowQuickAddDrawer(!showQuickAddDrawer)}
+                      className="px-space-md py-2 rounded-lg bg-primary-container text-on-primary-container text-label-md font-bold flex items-center gap-1.5 shadow-md hover:opacity-90 transition-all cursor-pointer shrink-0"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">add_circle</span>
+                      <span>+ Add New Vehicle</span>
+                    </button>
+                  </div>
+
+                  {/* Quick Add Vehicle Drawer */}
+                  {showQuickAddDrawer && (
+                    <form onSubmit={handleQuickAddSubmit} className="mt-space-md p-space-md rounded-xl bg-surface-container-low border border-surface-container-highest shadow-inner space-y-space-sm animate-fadeIn">
+                      <div className="flex items-center justify-between">
+                        <div className="text-body-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[16px] text-primary">drive_eta</span>
+                          <span>Quick Register Vehicle</span>
+                        </div>
+                        <button type="button" className="text-secondary hover:text-on-surface" onClick={() => setShowQuickAddDrawer(false)}>
+                          <span className="material-symbols-outlined text-[16px]">close</span>
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+                        <div>
+                          <label className="block text-[11px] font-semibold text-secondary mb-1">Vehicle Type</label>
+                          <select
+                            value={newVehType}
+                            onChange={(e) => setNewVehType(e.target.value)}
+                            className="w-full bg-surface-container-high border border-surface-container-highest rounded-lg px-3 py-2 text-body-xs text-on-surface focus:outline-none focus:border-primary"
+                          >
+                            <option>Sedan / Hatchback</option>
+                            <option>SUV / Crossover</option>
+                            <option>Electric Vehicle (EV)</option>
+                            <option>Motorcycle / Scooter</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-[11px] font-semibold text-secondary mb-1">Plate Number</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. NCD-1234"
+                            value={newVehPlate}
+                            onChange={(e) => setNewVehPlate(e.target.value)}
+                            className="w-full bg-surface-container-high border border-surface-container-highest rounded-lg px-3 py-2 text-body-xs text-on-surface focus:outline-none focus:border-primary font-mono uppercase"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[11px] font-semibold text-secondary mb-1">Make &amp; Model</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Toyota Corolla Cross"
+                            value={newVehModel}
+                            onChange={(e) => setNewVehModel(e.target.value)}
+                            className="w-full bg-surface-container-high border border-surface-container-highest rounded-lg px-3 py-2 text-body-xs text-on-surface focus:outline-none focus:border-primary"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="pt-space-xs border-t border-surface-container-high flex items-center justify-between">
+                        <label className="flex items-center gap-2 cursor-pointer text-body-xs text-on-surface-variant">
+                          <input
+                            type="checkbox"
+                            checked={newVehAnpr}
+                            onChange={(e) => setNewVehAnpr(e.target.checked)}
+                            className="w-4 h-4 rounded text-primary bg-surface-container border-surface-container-highest focus:ring-0"
+                          />
+                          <span>Enable Auto-Barrier ANPR Instant Gate Lift</span>
+                        </label>
+
+                        <button type="submit" className="px-space-md py-1.5 bg-primary-container text-on-primary-container text-label-md font-bold rounded-lg hover:opacity-90 transition-all cursor-pointer">
+                          Save Vehicle
+                        </button>
+                      </div>
+                    </form>
+                  )}
+
+                  {/* Registered Vehicles List */}
+                  <div className="space-y-space-xs mt-space-md">
+                    {vehicles.map((v) => (
+                      <div key={v.id} className={`p-space-md rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md ${v.isDefault
+                        ? 'bg-surface-container-low border-l-4 border-l-primary border-surface-container-highest'
+                        : 'bg-surface-container-low border-surface-container-highest'
+                        }`}>
+                        <div className="flex items-center space-x-3.5">
+                          <div className={`w-11 h-11 rounded-lg flex items-center justify-center ${v.isEv ? 'bg-blue-950/40 text-blue-400' : 'bg-surface-container-high text-primary'}`}>
+                            <span className="material-symbols-outlined text-[24px]">{v.isEv ? 'electric_car' : 'directions_car'}</span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-title-md font-bold text-on-surface">{v.model}</span>
+                              {v.isDefault && (
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-container/20 text-primary border border-primary/30">
+                                  PRIMARY / DEFAULT
+                                </span>
+                              )}
+                              {v.isEv && (
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-900/30 text-blue-300 border border-blue-700/30">
+                                  EV READY
+                                </span>
+                              )}
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-950/40 text-emerald-400 border border-emerald-800/40 flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                ANPR Active
+                              </span>
+                            </div>
+                            <div className="text-body-xs text-secondary mt-1 flex items-center gap-2">
+                              <span>{v.type || 'Sedan'} • {v.color || 'Standard'}</span>
+                              <span>•</span>
+                              <span className="text-on-surface-variant flex items-center gap-1">
+                                <span className="material-symbols-outlined text-[13px] text-primary">nfc</span> RFID Tag Linked
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-space-sm">
+                          <span className="font-mono text-body-xs px-2.5 py-1 rounded bg-background border border-surface-container-highest text-on-surface tracking-widest font-semibold">
+                            {v.plate}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {!v.isDefault && (
+                              <button
+                                onClick={() => setDefaultVehicle(v.id)}
+                                className="text-body-xs font-semibold text-primary hover:underline"
+                              >
+                                Set as Default
+                              </button>
+                            )}
+                            <button
+                              onClick={() => showToast(`Manage settings for ${v.model}`)}
+                              className="px-2.5 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-body-xs font-semibold text-on-surface border border-surface-container-highest"
+                            >
+                              Manage
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+
+                {/* Linked Payment Methods Card */}
+                <div className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-lg shadow-md">
+                  <div className="flex items-center justify-between pb-space-md border-b border-surface-container-high">
+                    <div>
+                      <h3 className="text-title-md font-bold text-on-surface flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-[20px]">payments</span>
+                        <span>Linked Payment Methods</span>
+                      </h3>
+                      <p className="text-body-xs text-secondary mt-0.5">Automated cashless payments for swift barrier exit</p>
+                    </div>
+                    <button
+                      onClick={() => setPaymentModalOpen(true)}
+                      className="text-label-md font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">add_card</span>
+                      <span>Add Method</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-xs mt-space-md">
+                    {payments.map((p) => (
+                      <div key={p.id} className="p-3.5 rounded-xl bg-surface-container-low border border-surface-container-highest relative">
+                        <div className="flex items-center justify-between mb-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center font-bold text-xs">
+                            {p.icon ? <span className="material-symbols-outlined text-[18px]">{p.icon}</span> : p.name.charAt(0)}
+                          </div>
+                          {p.isPrimary ? (
+                            <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/30 px-2 py-0.5 rounded-full">
+                              Primary
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-secondary">Backup</span>
+                          )}
+                        </div>
+                        <div className="text-body-xs font-bold text-on-surface">{p.name}</div>
+                        <div className="text-[11px] text-secondary mt-0.5">{p.detail || 'Connected'}</div>
+                        <div className="mt-3 pt-2 border-t border-surface-container-high flex items-center justify-between text-[11px]">
+                          <span className="text-emerald-400 flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                            Connected
+                          </span>
+                          {!p.isPrimary && (
+                            <button
+                              onClick={() => setPrimaryPayment(p.id)}
+                              className="text-secondary hover:text-on-surface"
+                            >
+                              Make Primary
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* TAB PANEL 2: PARKING HISTORY */}
+            {activeTab === 'history' && (
+              <div className="space-y-space-md animate-in fade-in duration-150">
+                <div className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-lg shadow-md">
+                  <div className="flex items-center justify-between pb-space-md border-b border-surface-container-high flex-wrap gap-2">
+                    <div>
+                      <h3 className="text-title-md font-bold text-on-surface flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-[20px]">manage_history</span>
+                        <span>All Parking Passes &amp; Validations</span>
+                      </h3>
+                      <p className="text-body-xs text-secondary mt-0.5">Complete digital logs of all parking stays across all accredited facilities</p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => showToast("Filtered history by current month")}
+                        className="px-3 py-1.5 rounded-lg bg-surface-container-high text-body-xs font-medium text-on-surface border border-surface-container-highest hover:bg-surface-bright"
+                      >
+                        Filter by Month
+                      </button>
+                      <button
+                        onClick={() => showToast("Exporting parking logs to PDF...")}
+                        className="px-3 py-1.5 rounded-lg bg-surface-container-high text-body-xs font-medium text-on-surface border border-surface-container-highest hover:bg-surface-bright"
+                      >
+                        Export PDF
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-space-md space-y-space-xs">
+                    {history.map((h) => (
+                      <div key={h.id} className="p-3.5 bg-surface-container-low border border-surface-container-highest rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-body-xs hover:border-surface-bright transition-all">
+                        <div>
+                          <div className="font-bold text-on-surface">{h.mall}</div>
+                          <div className="text-secondary mt-0.5">{h.date} • {h.duration} • Toyota Vios</div>
+                        </div>
+                        <div className="flex items-center justify-between sm:justify-end gap-space-md">
+                          <div className="text-right">
+                            <div className="font-bold text-on-surface font-mono">{h.amount}</div>
+                            <div className="text-[10px] text-emerald-400">+18 SanPark Pts</div>
+                          </div>
+                          <button
+                            onClick={() => showToast(`Viewing digital e-Receipt for ${h.mall}`)}
+                            className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-body-xs font-semibold text-on-surface border border-surface-container-highest flex items-center gap-1 transition-all"
+                          >
+                            <span className="material-symbols-outlined text-[14px]">receipt</span>
+                            <span>e-Receipt</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB PANEL 3: ACCOUNT & SECURITY */}
+            {activeTab === 'settings' && (
+              <div className="space-y-space-md animate-in fade-in duration-150">
+                <form onSubmit={handleSaveProfile} className="bg-surface-container border border-surface-container-highest rounded-2xl p-space-lg shadow-md space-y-space-md">
+                  <div className="pb-space-md border-b border-surface-container-high flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h3 className="text-title-md font-bold text-on-surface flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-[20px]">badge</span>
+                        <span>Account &amp; Security Settings</span>
+                      </h3>
+                      <p className="text-body-xs text-secondary mt-0.5">
+                        {isEditingSettings ? "Edit your identity credentials and security preferences below" : "Personal identity details, biometric ANPR authorizations, and security settings"}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      {isSavedSuccess && (
+                        <span className="text-body-xs font-semibold text-emerald-400 flex items-center gap-1 bg-emerald-950/40 border border-emerald-800/40 px-3 py-1 rounded-lg animate-fadeIn">
+                          <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                          <span>Saved</span>
+                        </span>
+                      )}
+                      
+                      {!isEditingSettings ? (
+                        <button
+                          type="button"
+                          onClick={handleStartEdit}
+                          className="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container text-label-md font-bold flex items-center gap-1.5 shadow-md hover:opacity-90 transition-all cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">edit</span>
+                          <span>Edit Details</span>
+                        </button>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded-lg bg-primary/10 text-primary border border-primary/30 text-body-xs font-bold uppercase tracking-wide">
+                          Editing Mode
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Personal Info Fields */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md mt-space-md">
+                    <div>
+                      <label className="block text-body-xs font-semibold uppercase tracking-wider text-secondary mb-1.5">Full Name</label>
+                      <input 
+                        type="text" 
+                        readOnly={!isEditingSettings}
+                        value={profileName} 
+                        onChange={(e) => setProfileName(e.target.value)}
+                        className={`w-full rounded-lg px-3.5 py-2 text-body-sm transition-all focus:outline-none ${
+                          isEditingSettings 
+                            ? 'bg-surface-container-high border border-primary ring-1 ring-primary/40 text-on-surface' 
+                            : 'bg-surface-container-low border border-surface-container-highest text-on-surface-variant cursor-default'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-body-xs font-semibold uppercase tracking-wider text-secondary mb-1.5">Email Address</label>
+                      <input 
+                        type="email" 
+                        readOnly={!isEditingSettings}
+                        value={profileEmail} 
+                        onChange={(e) => setProfileEmail(e.target.value)}
+                        className={`w-full rounded-lg px-3.5 py-2 text-body-sm transition-all focus:outline-none ${
+                          isEditingSettings 
+                            ? 'bg-surface-container-high border border-primary ring-1 ring-primary/40 text-on-surface' 
+                            : 'bg-surface-container-low border border-surface-container-highest text-on-surface-variant cursor-default'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-body-xs font-semibold uppercase tracking-wider text-secondary mb-1.5">Mobile Number</label>
+                      <input 
+                        type="text" 
+                        readOnly={!isEditingSettings}
+                        value={profileMobile} 
+                        onChange={(e) => setProfileMobile(e.target.value)}
+                        className={`w-full rounded-lg px-3.5 py-2 text-body-sm transition-all focus:outline-none font-mono ${
+                          isEditingSettings 
+                            ? 'bg-surface-container-high border border-primary ring-1 ring-primary/40 text-on-surface' 
+                            : 'bg-surface-container-low border border-surface-container-highest text-on-surface-variant cursor-default'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-body-xs font-semibold uppercase tracking-wider text-secondary mb-1.5">Time Zone &amp; Region</label>
+                      <input 
+                        type="text" 
+                        readOnly={!isEditingSettings}
+                        value={profileRegion} 
+                        onChange={(e) => setProfileRegion(e.target.value)}
+                        className={`w-full rounded-lg px-3.5 py-2 text-body-sm transition-all focus:outline-none ${
+                          isEditingSettings 
+                            ? 'bg-surface-container-high border border-primary ring-1 ring-primary/40 text-on-surface' 
+                            : 'bg-surface-container-low border border-surface-container-highest text-on-surface-variant cursor-default'
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Security Toggles */}
+                  <div className="divide-y divide-surface-container-high mt-space-lg pt-space-2xs border-t border-surface-container-high space-y-2">
+                    <div className="py-3 flex items-center justify-between">
                       <div>
-                        <div className="text-label-lg font-semibold text-on-surface">Biometric Login</div>
-                        <div className="text-body-sm text-secondary">FaceID / TouchID instant payment</div>
+                        <div className="text-body-sm font-semibold text-on-surface">Biometric Quick Barrier Authorization</div>
+                        <div className="text-body-xs text-secondary">Use FaceID or Fingerprint sensor to approve rapid barrier exit payments.</div>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -205,7 +670,7 @@ export default function UserProfileView() {
                           checked={bioLogin}
                           onChange={(e) => {
                             setBioLogin(e.target.checked);
-                            showToast(e.target.checked ? "Biometric login enabled" : "Biometric login disabled");
+                            showToast(e.target.checked ? "Biometric quick barrier enabled" : "Biometric quick barrier disabled");
                           }}
                           className="sr-only peer"
                         />
@@ -213,10 +678,10 @@ export default function UserProfileView() {
                       </label>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="py-3 flex items-center justify-between">
                       <div>
-                        <div className="text-label-lg font-semibold text-on-surface">Two-Factor Auth</div>
-                        <div className="text-body-sm text-secondary">SMS code on VIP bay bookings</div>
+                        <div className="text-body-sm font-semibold text-on-surface">Two-Factor Authentication (2FA)</div>
+                        <div className="text-body-xs text-secondary">Send SMS one-time verification passcode for extended multi-day parking.</div>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -232,345 +697,62 @@ export default function UserProfileView() {
                       </label>
                     </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={() => showToast("Password change email sent to mark.cruz@sanpark.io")}
-                  className="w-full mt-space-md bg-surface-container-high hover:bg-surface-bright text-on-surface py-space-xs rounded-lg text-label-lg font-semibold transition-all border border-surface-container-highest"
-                >
-                  Change Account Password
-                </button>
-              </div>
-
-            </div>
-
-            {/* Notification Preferences */}
-            <div className="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md border border-surface-container-high">
-              <h2 className="text-headline-md font-headline-md text-on-surface flex items-center space-x-space-2xs pb-space-xs border-b border-surface-container-high">
-                <span className="material-symbols-outlined text-primary">notifications_active</span>
-                <span>Notification &amp; Alert Preferences</span>
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-                <div className="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg border border-surface-container-highest">
-                  <div>
-                    <div className="text-label-lg font-semibold text-on-surface">Parking Expiry Push</div>
-                    <div className="text-body-sm text-secondary mt-1">Get warned 15 mins before your session expires.</div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifExpiry}
-                    onChange={(e) => setNotifExpiry(e.target.checked)}
-                    className="accent-primary w-5 h-5 mt-1 cursor-pointer"
-                  />
-                </div>
-
-                <div className="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg border border-surface-container-highest">
-                  <div>
-                    <div className="text-label-lg font-semibold text-on-surface">Promo &amp; Rewards Alerts</div>
-                    <div className="text-body-sm text-secondary mt-1">Receive alerts on double loyalty point weekends.</div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifPromo}
-                    onChange={(e) => setNotifPromo(e.target.checked)}
-                    className="accent-primary w-5 h-5 mt-1 cursor-pointer"
-                  />
-                </div>
-
-                <div className="flex items-start justify-between p-space-md bg-surface-container-low rounded-lg border border-surface-container-highest">
-                  <div>
-                    <div className="text-label-lg font-semibold text-on-surface">SMS Receipts</div>
-                    <div className="text-body-sm text-secondary mt-1">Instant billing summaries sent via SMS.</div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifSms}
-                    onChange={(e) => setNotifSms(e.target.checked)}
-                    className="accent-primary w-5 h-5 mt-1 cursor-pointer"
-                  />
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* TAB 2: SAVED VEHICLES */}
-        {activeTab === 'vehicles' && (
-          <div className="space-y-space-lg animate-in fade-in duration-150">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
-              <div>
-                <h2 className="text-headline-lg font-headline-lg text-on-surface">Registered Vehicles</h2>
-                <p className="text-body-md text-secondary">
-                  Manage license plates associated with your automatic barrier ANPR recognition.
-                </p>
-              </div>
-              <button
-                id="add-vehicle-btn"
-                onClick={() => setVehicleModalOpen(true)}
-                className="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-semibold hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs"
-              >
-                <span className="material-symbols-outlined text-[18px]">add_circle</span>
-                <span>Add New Vehicle</span>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-              {vehicles.map(v => (
-                <div
-                  key={v.id}
-                  className={`bg-surface-container p-space-lg rounded-xl shadow-md relative overflow-hidden flex flex-col justify-between border ${
-                    v.isDefault ? 'border-primary shadow-primary/20' : 'border-surface-container-high'
-                  }`}
-                >
-                  {v.isDefault && (
-                    <div className="absolute top-4 right-4 bg-primary-container text-on-primary-container px-2.5 py-1 rounded-full text-label-sm font-semibold">
-                      Default Active
-                    </div>
-                  )}
-                  {v.isEv && !v.isDefault && (
-                    <div className="absolute top-4 right-4 bg-tertiary-container/20 text-tertiary px-2.5 py-1 rounded-full text-label-sm font-semibold flex items-center space-x-1">
-                      <span className="material-symbols-outlined text-[12px]">bolt</span>
-                      <span>EV Compatible</span>
-                    </div>
-                  )}
-
-                  <div>
-                    <div className={`w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center mb-space-md ${
-                      v.isEv ? 'text-tertiary' : 'text-primary'
-                    }`}>
-                      <span className="material-symbols-outlined text-[24px]">
-                        {v.isEv ? 'ev_station' : 'directions_car'}
-                      </span>
-                    </div>
-
-                    <h3 className="text-headline-md font-headline-md text-on-surface">{v.model}</h3>
-                    <p className="text-body-sm text-secondary mt-0.5">{v.type} • {v.color}</p>
-
-                    <div className="mt-space-md inline-block bg-surface-container-lowest px-3 py-1.5 rounded text-label-lg font-semibold text-on-surface tracking-wider font-mono border border-surface-container-highest">
-                      {v.plate}
-                    </div>
-                  </div>
-
-                  <div className="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
-                    <span className="text-secondary">{v.rfid ? 'RFID & ANPR Linked' : 'Standard Plate'}</span>
-                    {!v.isDefault ? (
-                      <button
-                        onClick={() => setDefaultVehicle(v.id)}
-                        className="text-primary hover:underline font-semibold"
-                      >
-                        Set as Default
-                      </button>
-                    ) : (
-                      <span className="text-emerald-400 font-semibold flex items-center space-x-1">
-                        <span className="material-symbols-outlined text-[14px]">check</span>
-                        <span>Active</span>
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB 3: PAYMENT METHODS */}
-        {activeTab === 'payments' && (
-          <div className="space-y-space-lg animate-in fade-in duration-150">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
-              <div>
-                <h2 className="text-headline-lg font-headline-lg text-on-surface">Payment Methods</h2>
-                <p className="text-body-md text-secondary">
-                  Linked e-wallets and credit cards for frictionless automated boom gate exit.
-                </p>
-              </div>
-              <button
-                id="add-payment-btn"
-                onClick={() => setPaymentModalOpen(true)}
-                className="bg-primary-container text-on-primary-container px-space-md py-space-xs rounded-lg text-label-lg font-semibold hover:brightness-110 transition-all shadow-md flex items-center space-x-space-2xs"
-              >
-                <span className="material-symbols-outlined text-[18px]">add_card</span>
-                <span>Add Payment Method</span>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-              {payments.map(p => (
-                <div
-                  key={p.id}
-                  className={`bg-surface-container p-space-lg rounded-xl shadow-md flex flex-col justify-between border-l-4 ${
-                    p.isPrimary ? 'border-primary' : p.accentColor || 'border-surface-container-high'
-                  } border-t border-r border-b border-surface-container-high`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-space-md">
-                      <div className="w-12 h-12 rounded-lg bg-surface-container-high text-primary flex items-center justify-center font-bold">
-                        <span className="material-symbols-outlined text-[24px]">{p.icon}</span>
-                      </div>
-                      <span className={`px-2.5 py-1 rounded-full text-label-sm font-semibold ${
-                        p.isPrimary ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-high text-secondary'
-                      }`}>
-                        {p.isPrimary ? 'Primary' : p.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-headline-md font-headline-md text-on-surface">{p.name}</h3>
-                    <p className="text-body-sm text-secondary mt-0.5 font-mono">{p.detail}</p>
-                  </div>
-
-                  <div className="mt-space-lg pt-space-xs border-t border-surface-container-high flex items-center justify-between text-body-sm">
-                    <span className="text-emerald-400 flex items-center space-x-1">
-                      <span className="material-symbols-outlined text-[14px]">check_circle</span>
-                      <span>Connected</span>
+                  <div className="pt-space-md border-t border-surface-container-high flex flex-wrap items-center justify-between gap-space-xs">
+                    <span className="text-body-xs text-secondary">
+                      {isEditingSettings ? "Click Save Changes to preserve your updated profile details." : "Click Edit Details above to modify your personal information."}
                     </span>
-                    {!p.isPrimary && (
-                      <button
-                        onClick={() => setPrimaryPayment(p.id)}
-                        className="text-primary hover:underline font-semibold"
-                      >
-                        Set as Primary
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* TAB 4: STATISTICS & HISTORY */}
-        {activeTab === 'stats' && (
-          <div className="space-y-space-lg animate-in fade-in duration-150">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
-              <div>
-                <h2 className="text-headline-lg font-headline-lg text-on-surface">Parking Analytics &amp; History</h2>
-                <p className="text-body-md text-secondary">Summary of your urban parking patterns this month.</p>
-              </div>
-              <div className="bg-surface-container px-space-md py-space-xs rounded-lg text-label-md text-secondary flex items-center space-x-2 border border-surface-container-highest">
-                <span className="material-symbols-outlined text-[16px]">calendar_month</span>
-                <span>Active Billing Cycle</span>
-              </div>
-            </div>
+                    <div className="flex items-center space-x-space-xs">
+                      {isEditingSettings ? (
+                        <>
+                          <button
+                            type="button"
+                            onClick={handleCancelEdit}
+                            className="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface text-label-md font-semibold border border-surface-container-highest transition-colors cursor-pointer"
+                          >
+                            Cancel
+                          </button>
 
-            {/* Stats Bento */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
-              <div className="bg-surface-container p-space-lg rounded-xl shadow-md border border-surface-container-high">
-                <div className="text-body-sm text-secondary font-medium">Total Hours Parked</div>
-                <div className="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2 font-bold">
-                  <span>42.5</span>
-                  <span className="text-body-md text-primary font-normal">hours</span>
-                </div>
-                <div className="text-body-sm text-emerald-400 mt-2 flex items-center space-x-1">
-                  <span className="material-symbols-outlined text-[14px]">trending_up</span>
-                  <span>+12% vs last month</span>
-                </div>
-              </div>
+                          <button
+                            type="submit"
+                            className="px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container text-label-md font-bold hover:opacity-90 shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">save</span>
+                            <span>Save Changes</span>
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => showToast("Password change email sent to " + profileEmail)}
+                            className="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface text-label-md font-semibold border border-surface-container-highest transition-colors cursor-pointer"
+                          >
+                            Change Password
+                          </button>
 
-              <div className="bg-surface-container p-space-lg rounded-xl shadow-md border border-surface-container-high">
-                <div className="text-body-sm text-secondary font-medium">Total Parking Sessions</div>
-                <div className="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2 font-bold">
-                  <span>18</span>
-                  <span className="text-body-md text-primary font-normal">visits</span>
-                </div>
-                <div className="text-body-sm text-secondary mt-2">Avg. duration: 2.3 hours</div>
-              </div>
-
-              <div className="bg-surface-container p-space-lg rounded-xl shadow-md border border-surface-container-high">
-                <div className="text-body-sm text-secondary font-medium">Total Spend Saved</div>
-                <div className="text-headline-xl font-headline-xl text-on-surface mt-2 flex items-baseline space-x-2 font-bold">
-                  <span>₱1,420</span>
-                  <span className="text-body-md text-primary font-normal">via Elite Perks</span>
-                </div>
-                <div className="text-body-sm text-primary mt-2">Free weekend vouchers applied</div>
-              </div>
-            </div>
-
-            {/* Favorite Malls & Recent Logs */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
-              <div className="bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md border border-surface-container-high">
-                <h3 className="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
-                  <span className="material-symbols-outlined text-primary">favorite</span>
-                  <span>Favorite Malls Visited</span>
-                </h3>
-                <div className="space-y-space-md">
-                  <div className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg border border-surface-container-highest">
-                    <div className="flex items-center space-x-space-sm">
-                      <div className="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center font-bold text-primary">
-                        SM
-                      </div>
-                      <div>
-                        <div className="text-label-lg font-semibold text-on-surface">SM Megamall</div>
-                        <div className="text-body-sm text-secondary">Ortigas Center • 12 visits</div>
-                      </div>
+                          <button
+                            type="button"
+                            onClick={handleStartEdit}
+                            className="px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container text-label-md font-bold hover:opacity-90 shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">edit</span>
+                            <span>Edit Details</span>
+                          </button>
+                        </>
+                      )}
                     </div>
-                    <span className="text-label-md text-primary font-bold">68%</span>
                   </div>
-
-                  <div className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg border border-surface-container-highest">
-                    <div className="flex items-center space-x-space-sm">
-                      <div className="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center font-bold text-primary">
-                        AM
-                      </div>
-                      <div>
-                        <div className="text-label-lg font-semibold text-on-surface">Ayala Malls Manila Bay</div>
-                        <div className="text-body-sm text-secondary">Parañaque • 6 visits</div>
-                      </div>
-                    </div>
-                    <span className="text-label-md text-primary font-bold">32%</span>
-                  </div>
-                </div>
+                </form>
               </div>
+            )}
 
-              <div className="lg:col-span-2 bg-surface-container p-space-lg rounded-xl shadow-md space-y-space-md border border-surface-container-high">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-headline-md font-headline-md text-on-surface flex items-center space-x-2">
-                    <span className="material-symbols-outlined text-primary">history</span>
-                    <span>Recent Parking Sessions</span>
-                  </h3>
-                  <button 
-                    onClick={() => showToast("Showing complete 12-month activity")}
-                    className="text-label-md text-primary hover:underline font-semibold"
-                  >
-                    View All History
-                  </button>
-                </div>
+          </section>
 
-                <div className="space-y-space-sm">
-                  {history.map(item => (
-                    <div key={item.id} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg border border-surface-container-highest">
-                      <div className="flex items-center space-x-space-md">
-                        <span className="material-symbols-outlined text-primary text-[24px]">local_parking</span>
-                        <div>
-                          <div className="text-label-lg font-semibold text-on-surface">{item.mall}</div>
-                          <div className="text-body-sm text-secondary">{item.date} • {item.duration} • {item.vehicle}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-label-lg font-bold text-on-surface">{item.amount}</div>
-                        <div className="text-body-sm text-emerald-400">{item.method}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
+        </div>
 
       </div>
-
-      <VehicleModal
-        isOpen={vehicleModalOpen}
-        onClose={() => setVehicleModalOpen(false)}
-      />
-
-      <PaymentModal
-        isOpen={paymentModalOpen}
-        onClose={() => setPaymentModalOpen(false)}
-      />
-
     </div>
   );
 }

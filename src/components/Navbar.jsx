@@ -81,7 +81,7 @@ export default function Navbar() {
           <Link
             to="/find-parking"
             id="nav-reserve-cta"
-            className="hidden sm:inline-flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-primary-container text-on-primary-container text-body-sm font-semibold shadow-[0_0_12px_rgba(229,9,20,0.3)] hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95"
+            className="hidden lg:inline-flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-primary-container text-on-primary-container text-body-sm font-semibold shadow-[0_0_12px_rgba(229,9,20,0.3)] hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95"
           >
             <span className="material-symbols-outlined text-[16px]">local_parking</span>
             <span>Reserve a Spot</span>
@@ -89,7 +89,7 @@ export default function Navbar() {
 
           {/* Guest Auth Buttons or Authenticated Controls */}
           {(!currentUser || userRole === 'guest') ? (
-            <div className="flex items-center gap-space-xs sm:gap-space-sm">
+            <div className="hidden lg:flex items-center gap-space-xs sm:gap-space-sm">
               <button
                 type="button"
                 onClick={() => navigate('/login', { state: { tab: 'login' } })}
@@ -237,6 +237,31 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {(!currentUser || userRole === 'guest') && (
+            <div className="pt-2 border-t border-surface-container-high flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate('/login', { state: { tab: 'login' } });
+                }}
+                className="w-full text-center py-2.5 rounded-lg text-body-md font-medium text-on-surface bg-surface-container-high hover:bg-surface-bright transition-colors cursor-pointer"
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate('/login', { state: { tab: 'signup' } });
+                }}
+                className="w-full text-center py-2.5 rounded-lg text-body-md font-semibold bg-primary-container text-on-primary-container shadow-md transition-colors cursor-pointer"
+              >
+                Reserve a Spot
+              </button>
+            </div>
+          )}
         </div>
       )}
     </header>
