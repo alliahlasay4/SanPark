@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link, Navigate } from 'react-router-dom';
 import { useApp, DEMO_ACCOUNTS } from '../context/AppContext';
 import { GuestNavbar } from './LandingPage';
 
 export default function LoginPage() {
-  const { signIn, userRole } = useApp();
+  const { signIn, userRole, currentUser } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -222,7 +222,7 @@ export default function LoginPage() {
     <div className="bg-background font-body-md text-on-surface min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary-container">
 
       {/* Guest Navbar imported directly from LandingPage.jsx */}
-      <GuestNavbar 
+      <GuestNavbar
         onSignInClick={() => setActiveTab('login')}
         onReserveClick={() => setActiveTab('signup')}
       />
@@ -256,8 +256,8 @@ export default function LoginPage() {
                         type="button"
                         onClick={() => { setActiveTab('login'); setLoginStatus(null); }}
                         className={`py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${activeTab === 'login'
-                            ? 'bg-surface-container text-on-surface shadow-sm font-semibold'
-                            : 'text-secondary hover:text-on-surface'
+                          ? 'bg-surface-container text-on-surface shadow-sm font-semibold'
+                          : 'text-secondary hover:text-on-surface'
                           }`}
                       >
                         <span className="material-symbols-outlined text-[18px]">login</span>
@@ -268,8 +268,8 @@ export default function LoginPage() {
                         type="button"
                         onClick={() => { setActiveTab('signup'); setLoginStatus(null); }}
                         className={`py-2.5 px-3 rounded-lg text-center font-label-lg text-label-lg transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${activeTab === 'signup'
-                            ? 'bg-surface-container text-on-surface shadow-sm font-semibold'
-                            : 'text-secondary hover:text-on-surface'
+                          ? 'bg-surface-container text-on-surface shadow-sm font-semibold'
+                          : 'text-secondary hover:text-on-surface'
                           }`}
                       >
                         <span className="material-symbols-outlined text-[18px]">person_add</span>
@@ -320,10 +320,10 @@ export default function LoginPage() {
                       {loginStatus && (
                         <div
                           className={`mb-space-sm p-3 rounded-lg flex items-start gap-2.5 text-body-sm text-on-surface border ${loginStatus.type === 'error'
-                              ? 'bg-red-950/40 border-red-500/40 text-red-200'
-                              : loginStatus.type === 'success'
-                                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
-                                : 'bg-surface-container-highest border-surface-container-high'
+                            ? 'bg-red-950/40 border-red-500/40 text-red-200'
+                            : loginStatus.type === 'success'
+                              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
+                              : 'bg-surface-container-highest border-surface-container-high'
                             }`}
                         >
                           <span className={`material-symbols-outlined text-[18px] shrink-0 mt-0.5 ${loginStatus.type === 'error' ? 'text-red-400' : loginStatus.type === 'success' ? 'text-emerald-400' : 'text-primary-container'

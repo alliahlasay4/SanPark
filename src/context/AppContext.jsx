@@ -123,6 +123,28 @@ export function AppProvider({ children }) {
     showToast(`Registered vehicle: ${vehicleObj.model}`);
   };
 
+  const updateVehicle = (id, updatedFields) => {
+    setVehicles(prev => prev.map(v => (
+      v.id === id ? { ...v, ...updatedFields } : v
+    )));
+    showToast("Vehicle details updated");
+  };
+
+  const deleteVehicle = (id) => {
+    const vehicleToDelete = vehicles.find(v => v.id === id);
+    if (!vehicleToDelete) return;
+    if (vehicles.length <= 1) {
+      showToast("Cannot remove your only registered vehicle");
+      return;
+    }
+    const updated = vehicles.filter(v => v.id !== id);
+    if (vehicleToDelete.isDefault && updated.length > 0) {
+      updated[0].isDefault = true;
+    }
+    setVehicles(updated);
+    showToast(`Removed vehicle: ${vehicleToDelete.model}`);
+  };
+
   const setPrimaryPayment = (id) => {
     setPayments(prev => prev.map(p => ({
       ...p,
@@ -248,6 +270,8 @@ export function AppProvider({ children }) {
       selectedVehicle,
       setDefaultVehicle,
       addVehicle,
+      updateVehicle,
+      deleteVehicle,
       payments,
       setPrimaryPayment,
       addPaymentMethod,

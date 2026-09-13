@@ -54,42 +54,61 @@ function RoleLanding() {
 }
 
 function AdminRoute({ children }) {
-  const { userRole } = useApp();
-  return userRole === 'admin' ? children : <Navigate to="/" replace />;
+  const { userRole, currentUser } = useApp();
+  if (!currentUser || userRole !== 'admin') {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 }
 
 function UserRoute({ children }) {
-  const { userRole } = useApp();
-  return userRole === 'user' ? children : <Navigate to="/login" replace />;
+  const { userRole, currentUser } = useApp();
+  if (!currentUser || userRole === 'guest') {
+    return <Navigate to="/login" replace />;
+  }
+  if (userRole === 'admin') {
+    return <Navigate to="/mall-manager" replace />;
+  }
+  return children;
+}
+
+function ProtectedRoute({ children }) {
+  const { userRole, currentUser } = useApp();
+  if (!currentUser || userRole === 'guest') {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 }
 
 function MainLayout() {
   const location = useLocation();
   const isLanding = location.pathname === '/' || location.pathname === '/home';
+  const isLogin = location.pathname === '/login';
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
-      {/* Global Navbar shown only on internal routes, LandingPage has its own dedicated guest navbar */}
-      {!isLanding && <Navbar />}
+      {/* Global Navbar shown only on internal routes (hidden on Landing and Login) */}
+      {!isLanding && !isLogin && <Navbar />}
       
       {/* Spacer for fixed top navbar on internal pages */}
-      <main className={`flex-grow flex flex-col w-full ${!isLanding ? 'pt-16' : ''}`}>
+      <main className={`flex-grow flex flex-col w-full ${!isLanding && !isLogin ? 'pt-16' : ''}`}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Navigate to="/" replace />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/find-parking" element={<FindParkingPage />} />
           <Route path="/my-bookings" element={<UserRoute><MyBookingsPage /></UserRoute>} />
           <Route path="/mall-manager" element={<AdminRoute><MallManagerPage /></AdminRoute>} />
           <Route path="/customer-reservations" element={<AdminRoute><CustomerReservationsPage /></AdminRoute>} />
           <Route path="/analytics" element={<AdminRoute><AdminAnalyticsPage /></AdminRoute>} />
           <Route path="/admin-operations" element={<AdminRoute><Navigate to="/analytics" replace /></AdminRoute>} />
-          <Route path="/account" element={<UserProfilePage />} />
+          <Route path="/account" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
           <Route path="/user-profile" element={<Navigate to="/account" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
 
-      <Footer />
+      {!isLogin && <Footer />}
       <FloorPlanModal />
       <ToastContainer />
     </div>
@@ -101,10 +120,7 @@ export default function App() {
     <AppProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<MainLayout />} />
-        </Routes>
+        <MainLayout />
       </BrowserRouter>
     </AppProvider>
   );

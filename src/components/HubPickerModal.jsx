@@ -124,7 +124,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                     onClick={() => setSelectedHubId(hub.id)}
                     className={`p-space-sm rounded-xl border transition-all cursor-pointer flex items-center space-x-space-xs ${
                       isSelected
-                        ? 'bg-surface-container-highest/90 border-primary shadow-[0_0_12px_rgba(229,9,20,0.15)]'
+                        ? 'bg-primary-container/15 border-primary/60 shadow-md'
                         : 'bg-surface-container-low border-surface-container-highest hover:border-surface-bright hover:bg-surface-container-high'
                     }`}
                   >
@@ -181,7 +181,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                       onClick={() => setSelectedVehicleId(v.id)}
                       className={`p-space-xs px-space-sm rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                         isSelected
-                          ? 'bg-surface-container-highest/90 border-primary'
+                          ? 'bg-primary-container/15 border-primary/60 shadow-md'
                           : 'bg-surface-container-low border-surface-container-highest hover:bg-surface-container-high'
                       }`}
                     >
@@ -193,7 +193,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                           <div className="flex items-center space-x-1.5">
                             <span className="text-label-md font-semibold text-on-surface">{v.model}</span>
                             {v.isDefault && (
-                              <span className="px-1.5 py-0.2 text-[10px] rounded bg-primary/20 text-primary font-bold">
+                              <span className="px-1.5 py-0.2 text-[10px] rounded bg-primary-container/20 text-primary font-bold">
                                 DEFAULT
                               </span>
                             )}
@@ -217,7 +217,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                     placeholder="e.g. NBO-9988"
                     value={customPlate}
                     onChange={(e) => setCustomPlate(e.target.value)}
-                    className="flex-1 px-3 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary uppercase tracking-wider font-mono"
+                    className="flex-1 px-3 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary-container uppercase tracking-wider font-mono"
                   />
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                     type="date"
                     value={reservationDate}
                     onChange={(e) => setReservationDate(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary"
+                    className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary-container"
                   />
                 </div>
                 <div>
@@ -277,7 +277,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                     type="time"
                     value={entryTime}
                     onChange={(e) => setEntryTime(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary"
+                    className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container-high border border-surface-container-highest text-on-surface text-body-sm focus:outline-none focus:border-primary-container"
                   />
                 </div>
               </div>
@@ -298,7 +298,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
                     onClick={() => setDurationHours(hrs)}
                     className={`py-2 rounded-lg text-label-md font-semibold transition-all flex flex-col items-center justify-center ${
                       durationHours === hrs
-                        ? 'bg-primary text-white shadow-md'
+                        ? 'bg-primary-container text-on-primary-container font-semibold shadow-md'
                         : 'bg-surface-container-high text-on-surface hover:bg-surface-bright border border-surface-container-highest'
                     }`}
                   >
@@ -340,7 +340,7 @@ export default function HubPickerModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={handleProceed}
-            className="px-space-md py-space-xs rounded-lg bg-primary text-white text-label-md font-label-md flex items-center space-x-space-2xs shadow-[0_0_20px_rgba(229,9,20,0.4)] hover:bg-primary/90 transition-all cursor-pointer"
+            className="px-space-md py-space-xs rounded-lg bg-primary-container text-on-primary-container text-label-md font-label-md flex items-center space-x-space-2xs shadow-lg shadow-primary-container/20 hover:bg-primary-container/90 transition-all cursor-pointer"
           >
             <span>Proceed to Floor Plan &amp; Select Bay</span>
             <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

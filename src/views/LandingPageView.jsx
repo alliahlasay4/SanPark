@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function LandingPageView() {
-  const { hubs, openFloorPlan } = useApp();
+  const { hubs, openFloorPlan, currentUser, userRole } = useApp();
   const navigate = useNavigate();
 
   // Search Widget State
@@ -298,6 +298,8 @@ export default function LandingPageView() {
                       onClick={() => {
                         if (availabilityResult.hub) {
                           openFloorPlan(availabilityResult.hub);
+                        } else if (!currentUser || userRole === 'guest') {
+                          navigate('/login', { state: { tab: 'login', from: '/find-parking' } });
                         } else {
                           navigate('/find-parking', { state: { searchQuery: destination } });
                         }
@@ -700,7 +702,13 @@ export default function LandingPageView() {
 
           <div className="flex justify-center pt-space-xs">
             <button
-              onClick={() => navigate('/find-parking')}
+              onClick={() => {
+                if (!currentUser || userRole === 'guest') {
+                  navigate('/login', { state: { tab: 'login', from: '/find-parking' } });
+                } else {
+                  navigate('/find-parking');
+                }
+              }}
               className="inline-flex items-center gap-2 px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md border border-surface-container-high transition-colors cursor-pointer"
             >
               <span>View All 38 Connected Facilities on Live Map</span>
@@ -764,7 +772,13 @@ export default function LandingPageView() {
               <div className="mt-space-lg pt-space-md text-secondary font-label-sm text-label-sm border-t border-surface-container-high/40">
                 Need fast resolution? Check our{' '}
                 <button 
-                  onClick={() => navigate('/find-parking')}
+                  onClick={() => {
+                    if (!currentUser || userRole === 'guest') {
+                      navigate('/login', { state: { tab: 'login', from: '/find-parking' } });
+                    } else {
+                      navigate('/find-parking');
+                    }
+                  }}
                   className="text-primary hover:underline font-medium cursor-pointer"
                 >
                   Driver Help Center &amp; Gate FAQs →
@@ -894,7 +908,13 @@ export default function LandingPageView() {
             </button>
 
             <button
-              onClick={() => navigate('/find-parking')}
+              onClick={() => {
+                if (!currentUser || userRole === 'guest') {
+                  navigate('/login', { state: { tab: 'login', from: '/find-parking' } });
+                } else {
+                  navigate('/find-parking');
+                }
+              }}
               className="inline-flex items-center gap-space-2xs px-space-md py-space-sm rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-lg text-label-lg transition-colors border border-surface-container-high cursor-pointer"
             >
               <span>Explore Live Map</span>
